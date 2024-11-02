@@ -6,9 +6,7 @@ import { HeroType, type Hero, type HeroAttribute } from "@/types/hero"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
-import { toast } from "@/hooks/use-toast"
 import { Check } from "lucide-react"
-import { getHeroes } from "@/services/heroes"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
   Dialog,
@@ -1432,15 +1430,15 @@ type ConfigType = {
 }
 
 interface ConfigFormComponentProps {
+  heroes: Hero[]
   onConfigChange?: (config: ConfigType) => void
 }
 
 export function ConfigFormComponent(props: ConfigFormComponentProps) {
-  const { onConfigChange } = props
+  const { heroes, onConfigChange } = props
   const [customDefineSettingData, setCustomDefineSettingData] = useState<CustomDefineSettingDataType>(getCustomDefineSettingData())
   const [mapMode, setMapMode] = useState(MapModeOptions[2].value)
   const [banHeroNames, setBanHeroNames] = useState<string[]>([])
-  const [heroes, setHeroes] = useState<Hero[]>([])
   const [gameConfigTab, setGameConfigTab] = useState('hero')
   const [heroConfigType, setHeroConfigType] = useState('global')
   const [currentPlayer, setCurrentPlayer] = useState<string>('1')
@@ -1450,7 +1448,6 @@ export function ConfigFormComponent(props: ConfigFormComponentProps) {
   const [towerCampType, setTowerCampType] = useState('tower-camp-blue')
 
   useEffect(() => {
-    getHeroes().then(setHeroes);
     const configData = loadConfigFromLocalStorage()
     if (configData) {
       setCustomDefineSettingData(configData.customDefineSettingData)

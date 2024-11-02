@@ -14,8 +14,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "王者荣耀辅助工具",
-  description: "王者荣耀辅助工具",
+  title: "小王开局 v1.0",
+  description: "自定义你的王者荣耀游戏体验",
 };
 
 export default function RootLayout({
