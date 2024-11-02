@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { HotModeList, type HotMode } from "@/components/hot-mode-list"
+import { Share } from "lucide-react"
 
 const HotModes: HotMode[] = [
   {
@@ -71,12 +72,27 @@ export default function Home() {
                   创建房间
                 </Button>
               </div>
-              <button 
-                onClick={() => {/* TODO: 添加修改参数的逻辑 */}} 
-                className="text-sm text-gray-500 hover:text-gray-700 mt-2 self-end"
-              >
-                修改模式参数 →
-              </button>
+              <div className="flex justify-between items-center mt-2">
+                <Button 
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    // const shareUrl = `${window.location.origin}?mode=${encodeURIComponent(currentMode)}`
+                    // navigator.clipboard.writeText(shareUrl)
+                    // TODO: 添加复制成功的提示
+                  }}
+                  className="text-gray-500 hover:text-gray-700 flex items-center gap-1"
+                >
+                  <Share className="h-4 w-4" />
+                  <span>分享模式</span>
+                </Button>
+                <button 
+                  onClick={() => {/* TODO: 添加修改参数的逻辑 */}} 
+                  className="text-sm text-gray-500 hover:text-gray-700"
+                >
+                  修改模式参数 →
+                </button>
+              </div>
             </div>
           </CardContent>
         </Card>
