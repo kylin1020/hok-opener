@@ -47,7 +47,7 @@ export default function Home() {
       {/* 标题区域 */}
       <div className="w-full max-w-md text-center mb-6 mt-8">
         <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
-          小王开局 v1.0
+          小王开局助手 v1.0
         </h1>
         <p className="text-gray-600 mt-2">
           自定义你的王者荣耀游戏体验
@@ -68,7 +68,7 @@ export default function Home() {
                   onClick={() => startGame(currentMode)}
                   className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
                 >
-                  开始游戏
+                  创建房间
                 </Button>
               </div>
               <button 

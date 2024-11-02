@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 王者荣耀开局助手
 
-## Getting Started
+这是一个基于 [Next.js](https://nextjs.org) 开发的王者荣耀自定义开局工具。
 
-First, run the development server:
+## 功能特点
+
+- 支持多种游戏模式选择(5v5标准、征召等)
+- 英雄禁用功能
+- 自定义游戏参数:
+  - 英雄属性(等级、攻击力、冷却等)
+  - 兵线/野怪属性
+  - 防御塔/水晶属性
+- 支持按阵营或单个英雄配置
+- 配置方案本地保存
+- 响应式界面设计
+
+## 开始使用
+
+首先,运行开发服务器:
 
 ```bash
 npm run dev
-# or
+# 或
 yarn dev
-# or
+# 或
 pnpm dev
-# or
+# 或
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+在浏览器中打开 [http://localhost:3000](http://localhost:3000) 查看结果。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 技术栈
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [Next.js](https://nextjs.org/) - React 框架
+- [Tailwind CSS](https://tailwindcss.com) - CSS 框架
+- [shadcn/ui](https://ui.shadcn.com) - UI 组件库
+- TypeScript - 类型安全
+- LocalStorage - 本地数据持久化
 
-## Learn More
+## 项目结构
 
-To learn more about Next.js, take a look at the following resources:
+```
+.
+├── app/                # Next.js 应用目录
+│   ├── page.tsx       # 主页面
+│   └── layout.tsx     # 布局组件
+├── components/        # React 组件
+├── types/            # TypeScript 类型定义
+└── public/           # 静态资源
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 贡献
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+欢迎提交 Issue 和 Pull Request!
 
-## Deploy on Vercel
+## 许可
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT License
