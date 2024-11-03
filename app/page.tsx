@@ -12,6 +12,14 @@ import { copyToClipboard } from "@/lib/utils/clipboard"
 import { useRouter } from "next/navigation"
 import { ShareModeDialog } from "@/components/share-mode-dialog"
 import { getModeTitle, type GameMode } from "@/lib/constants/modes"
+import { HomeSkeleton } from "@/components/home-skeleton"
+import { ErrorDisplay } from "@/components/error-display"
+
+interface Mode {
+  id: number
+  title: string
+  // ... 其他属性
+}
 
 async function fetchModes() {
   const response = await fetch('/api/modes')
@@ -52,15 +60,22 @@ export default function Home() {
   }
 
   if (isLoading) {
-    return <div className="min-h-screen flex items-center justify-center">
-      加载中...
-    </div>
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-pink-200 to-red-200 p-4">
+        <HomeSkeleton />
+      </div>
+    )
   }
 
   if (error) {
-    return <div className="min-h-screen flex items-center justify-center">
-      加载失败，请刷新重试
-    </div>
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-pink-200 to-red-200 p-4">
+        <ErrorDisplay 
+          message="加载失败，请稍后重试" 
+          onRetry={() => window.location.reload()}
+        />
+      </div>
+    )
   }
 
   return (
@@ -97,7 +112,7 @@ export default function Home() {
                   variant="ghost"
                   size="sm"
                   onClick={() => {
-                    const isPresetMode = modesData?.presetModes.some(mode => mode.id === currentMode)
+                    const isPresetMode = modesData?.presetModes.some((mode: Mode) => mode.id === currentMode)
                     if (isPresetMode) {
                       handleShare()
                     } else {
@@ -127,7 +142,7 @@ export default function Home() {
           <CardTitle className="text-lg">快速开始</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4">
-          {modesData?.presetModes.map(mode => (
+          {modesData?.presetModes.map((mode: Mode) => (
             <Button 
               key={mode.id}
               className="w-full h-12 text-lg"
