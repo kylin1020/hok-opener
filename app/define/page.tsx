@@ -1,4 +1,4 @@
-import { ConfigFormComponent } from "@/components/config-form"
+import ConfigFormComponent from "@/components/config-form"
 import { getHeroes } from "@/services/heroes"
 
 export default async function DefinePage() {

@@ -1,16 +1,9 @@
-export interface GameMode {
-  id: number
-  title: string
-  description?: string
-  disabled?: boolean
-  usageCount?: number
-  isPreset?: boolean
-}
+import { type Mode } from "@/types/mode"
 
-export function getModeById(modes: GameMode[], id: number): GameMode | undefined {
+export function getModeById(modes: Mode[], id: string): Mode | undefined {
   return modes.find(mode => mode.id === id)
 }
 
-export function getModeTitle(modes: GameMode[], id: number): string {
-  return getModeById(modes, id)?.title || "未知模式"
+export function getModeTitle(modes: Mode[], id: string): string {
+  return getModeById(modes, id)?.name || "未知模式"
 } 

@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
 import { HotModeList } from "@/components/hot-mode-list"
 import { Share } from "lucide-react"
 import { toast } from "sonner"
@@ -15,15 +14,9 @@ import { getModeTitle } from "@/lib/constants/modes"
 import { HomeSkeleton } from "@/components/home-skeleton"
 import { ErrorDisplay } from "@/components/error-display"
 import Joyride, { Step } from 'react-joyride'
-import { type ConfigType } from '@/components/config-form';
 import Image from "next/image"
 import { LoadingDialog } from "@/components/loading-dialog"
-
-interface Mode {
-  id: number
-  title: string
-  // ... 其他属性
-}
+import { type Mode } from "@/types/mode"
 
 async function fetchModes() {
   const response = await fetch('/api/modes')
@@ -34,7 +27,13 @@ async function fetchModes() {
 }
 
 export default function Home() {
-  const [currentMode, setCurrentMode] = useState<number>(1)
+  const [currentMode, setCurrentMode] = useState<string | undefined>(() => {
+    if (typeof window !== 'undefined') {
+      const savedMode = localStorage.getItem('currentMode')
+      return savedMode ? savedMode : "2"
+    }
+    return "2"
+  })
   const router = useRouter()
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
   const [runTour, setRunTour] = useState(true)
@@ -46,6 +45,12 @@ export default function Home() {
       setRunTour(false)
     }
   }, [])
+
+  useEffect(() => {
+    if (currentMode) {
+      localStorage.setItem('currentMode', currentMode)
+    }
+  }, [currentMode])
 
   const steps: Step[] = [
     {
@@ -65,7 +70,7 @@ export default function Home() {
     },
     {
       target: '.current-mode-area',
-      content: '选择模式后,在这里可以看到当前选择的模式并开始游戏',
+      content: '选择模式后,在这里可以看到当前选择的模式并创建房间',
       placement: 'bottom',
     },
     {
@@ -89,7 +94,7 @@ export default function Home() {
 
   const allModes = [...(modesData?.presetModes || []), ...(modesData?.hotModes || [])]
 
-  const startGame = async (modeId: number) => {
+  const startGame = async (modeId: string) => {
     setIsCreating(true)
     try {
       const response = await fetch('/api/rooms', {
@@ -226,12 +231,7 @@ export default function Home() {
                     if (typeof currentMode === 'undefined') {
                       setShareDialogOpen(true)
                     } else {
-                      const isPresetMode = currentMode !== 1;
-                      if (isPresetMode) {
-                        handleShare()
-                      } else {
-                        setShareDialogOpen(true)
-                      }
+                      handleShare()
                     }
                   }}
                   className="text-gray-500 hover:text-gray-700 flex items-center gap-1"
@@ -256,6 +256,13 @@ export default function Home() {
           <CardTitle className="text-lg">快速开始</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4">
+          <Button 
+              className="w-full h-12 text-lg custom-room-btn"
+            variant="outline"
+            onClick={() => router.push('/define')}
+          >
+            自定义房间
+          </Button>
           {modesData?.presetModes.map((mode: Mode) => (
             <Button 
               key={mode.id}
@@ -263,17 +270,9 @@ export default function Home() {
               variant="default"
               onClick={() => setCurrentMode(mode.id)}
             >
-              {mode.title}
+              {mode.name}
             </Button>
           ))}
-          <Link href="/define" className="w-full">
-            <Button 
-              className="w-full h-12 text-lg custom-room-btn"
-              variant="outline"
-            >
-              自定义房间
-            </Button>
-          </Link>
         </CardContent>
       </Card>
 
@@ -283,6 +282,7 @@ export default function Home() {
           onModeClick={(mode) => {
             setCurrentMode(mode.id)
           }}
+          currentMode={currentMode}
         />
       </div>
 

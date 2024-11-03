@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { ModeService } from '@/lib/services/mode.service'
+import { Mode } from '@/types/mode'
 
 export async function GET(
   request: Request,

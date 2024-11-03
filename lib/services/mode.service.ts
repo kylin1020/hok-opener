@@ -1,6 +1,5 @@
 import clientPromise from '@/lib/mongodb'
 import { ObjectId } from 'mongodb'
-import { GameMode } from '@/lib/types'
 
 export class ModeService {
   private static async getCollection() {

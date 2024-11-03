@@ -20,7 +20,8 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { GenericSelectorComponent } from './generic-selector'
-
+import { Mode, ModeSetting, CustomDefineSettingDataType, CustomDefineSettingItem } from '@/types/mode'
+import { generateDefaultMode, MapModeOptions } from '@/lib/mode'
 
 const heroTypeOptions = [
   {
@@ -289,473 +290,6 @@ const GameConfigTabs = [
     value: 'tower'
   }
 ];
-
-interface CustomDefineSettingItem {
-  name?: string;
-  value: string;
-  index: string | string[];
-}
-
-type HeroCustomDefineSettingItem = {
-  // 等级
-  level: CustomDefineSettingItem;
-  // 法术攻击
-  magicAttack: CustomDefineSettingItem;
-  // 物理攻击
-  physicalAttack: CustomDefineSettingItem;
-  // 冷却缩减
-  coolDown: CustomDefineSettingItem;
-  // 金币
-  gold: CustomDefineSettingItem;
-  // 移动速度
-  speed: CustomDefineSettingItem;
-}
-
-type LineCustomDefineSettingItem = {
-  // 攻击力
-  attack: CustomDefineSettingItem;
-  // 血量
-  health: CustomDefineSettingItem;
-  // 移动速度
-  speed: CustomDefineSettingItem;
-  //刷新速度
-  refreshSpeed: CustomDefineSettingItem;
-  // 出兵类型
-  spawnType: CustomDefineSettingItem;
-}
-
-// 防御塔
-type TowerCustomDefineSettingItem = {
-  // 攻击力
-  attack: CustomDefineSettingItem;
-  // 攻击范围
-  attackRange: CustomDefineSettingItem;
-  //血量
-  health: CustomDefineSettingItem;
-}
-
-// 水晶
-type CrystalCustomDefineSettingItem = {
-  // 攻击力
-  attack: CustomDefineSettingItem;
-  // 血量
-  health: CustomDefineSettingItem;
-}
-
-// 野怪
-type MonsterCustomDefineSettingItem = {
-  // 攻击力
-  attack: CustomDefineSettingItem;
-  // 血量
-  health: CustomDefineSettingItem;
-}
-
-type CustomDefineSettingDataType = {
-  blue: {
-    heroes: HeroCustomDefineSettingItem[];
-    line: LineCustomDefineSettingItem;
-    tower: TowerCustomDefineSettingItem;
-    monster: MonsterCustomDefineSettingItem;
-    crystal: CrystalCustomDefineSettingItem;
-  },
-  red: {
-    heroes: HeroCustomDefineSettingItem[];
-    line: LineCustomDefineSettingItem;
-    tower: TowerCustomDefineSettingItem;
-    monster: MonsterCustomDefineSettingItem;
-    crystal: CrystalCustomDefineSettingItem;
-  }
-}
-
-export const getCustomDefineSettingData = (): CustomDefineSettingDataType => ({
-  blue: {
-    heroes: [
-      {
-        level: {
-          value: '1',
-          index: '0'
-        },
-        magicAttack: {
-          value: '1',
-          index: '1'
-        },
-        physicalAttack: {
-          value: '1',
-          index: '2'
-        },
-        coolDown: {
-          value: '1',
-          index: '3'
-        },
-        gold: {
-          value: '1',
-          index: '4'
-        },
-        speed: {
-          value: '1',
-          index: '106'
-        }
-      },
-      {
-        level: {
-          value: '1',
-          index: '51'
-        },
-        magicAttack: {
-          value: '1',
-          index: '52'
-        },
-        physicalAttack: {
-          value: '1',
-          index: '53'
-        },
-        coolDown: {
-          value: '1',
-          index: '54'
-        },
-        gold: {
-          value: '1',
-          index: '55'
-        },
-        speed: {
-          value: '1',
-          index: '107'
-        }
-      },
-      {
-        level: {
-          value: '1',
-          index: '56'
-        },
-        magicAttack: {
-          value: '1',
-          index: '57'
-        },
-        physicalAttack: {
-          value: '1',
-          index: '58'
-        },
-        coolDown: {
-          value: '1',
-          index: '59'
-        },
-        gold: {
-          value: '1',
-          index: '60'
-        },
-        speed: {
-          value: '1',
-          index: '108'
-        }
-      },
-      {
-        level: {
-          value: '1',
-          index: '61'
-        },
-        magicAttack: {
-          value: '1',
-          index: '62'
-        },
-        physicalAttack: {
-          value: '1',
-          index: '63'
-        },
-        coolDown: {
-          value: '1',
-          index: '64'
-        },
-        gold: {
-          value: '1',
-          index: '65'
-        },
-        speed: {
-          value: '1',
-          index: '109'
-        }
-      },
-      {
-        level: {
-          value: '1',
-          index: '66'
-        },
-        magicAttack: {
-          value: '1',
-          index: '67'
-        },
-        physicalAttack: {
-          value: '1',
-          index: '68'
-        },
-        coolDown: {
-          value: '1',
-          index: '69'
-        },
-        gold: {
-          value: '1',
-          index: '70'
-        },
-        speed: {
-          value: '1',
-          index: '110'
-        }
-      }
-    ],
-    line: {
-      attack: {
-        value: '1',
-        index: '5'
-      },
-      health: {
-        value: '1',
-        index: '6'
-      },
-      speed: {
-        value: '1',
-        index: '7'
-      },
-      refreshSpeed: {
-        value: '1',
-        index: '8'
-      },
-      spawnType: {
-        value: '1',
-        index: '9'
-      }
-    },
-    tower: {
-      attack: {
-          value: '1',
-          index: ['13', '22']
-      },
-      attackRange: {
-        value: '1',
-        index: ['15', '24']
-      },
-      health: {
-        value: '1',
-        index: ['14', '23']
-      }
-    },
-    monster: {
-      attack: {
-        value: '1',
-        index: '11'
-      },
-      health: {
-        value: '1',
-        index: '12'
-      }
-    },
-    crystal: {
-      attack: {
-        value: '1',
-        index: '16'
-      },
-      health: {
-        value: '1',
-        index: '17'
-      }
-    }
-  },
-  red: {
-    heroes: [
-      {
-        level: {
-          value: '1',
-          index: '28'
-        },
-        magicAttack: {
-          value: '1',
-          index: '29'
-        },
-        physicalAttack: {
-          value: '1',
-          index: '30'
-        },
-        coolDown: {
-          value: '1',
-          index: '31'
-        },
-        gold: {
-          value: '1',
-          index: '32'
-        },
-        speed: {
-          value: '1',
-          index: '111'
-        }
-      },
-      {
-        level: {
-          value: '1',
-          index: '71'
-        },
-        magicAttack: {
-          value: '1',
-          index: '72'
-        },
-        physicalAttack: {
-          value: '1',
-          index: '73'
-        },
-        coolDown: {
-          value: '1',
-          index: '74'
-        },
-        gold: {
-          value: '1',
-          index: '75'
-        },
-        speed: {
-          value: '1',
-          index: '112'
-        }
-      },
-      {
-        level: {
-          value: '1',
-          index: '76'
-        },
-        magicAttack: {
-          value: '1',
-          index: '77'
-        },
-        physicalAttack: {
-          value: '1',
-          index: '78'
-        },
-        coolDown: {
-          value: '1',
-          index: '79'
-        },
-        gold: {
-          value: '1',
-          index: '80'
-        },
-        speed: {
-          value: '1',
-          index: '113'
-        }
-      },
-      {
-        level: {
-          value: '1',
-          index: '81'
-        },
-        magicAttack: {
-          value: '1',
-          index: '82'
-        },
-        physicalAttack: {
-          value: '1',
-          index: '83'
-        },
-        coolDown: {
-          value: '1',
-          index: '84'
-        },
-        gold: {
-          value: '1',
-          index: '85'
-        },
-        speed: {
-          value: '1',
-          index: '114'
-        }
-      },
-      {
-        level: {
-          value: '1',
-          index: '86'
-        },
-        magicAttack: {
-          value: '1',
-          index: '87'
-        },
-        physicalAttack: {
-          value: '1',
-          index: '88'
-        },
-        coolDown: {
-          value: '1',
-          index: '89'
-        },
-        gold: {
-          value: '1',
-          index: '90'
-        },
-        speed: {
-          value: '1',
-          index: '115'
-        }
-      }
-    ],
-    line: {
-      attack: {
-        value: '1',
-        index: '33'
-      },
-      health: {
-        value: '1',
-        index: '34'
-      },
-      speed: {
-        value: '1',
-        index: '35'
-      },
-      refreshSpeed: {
-        value: '1',
-        index: '36'
-      },
-      spawnType: {
-        value: '1',
-        index: '37'
-      }
-    },
-    tower: {
-      attack: {
-        value: '1',
-        index: ['41', '48']
-      },
-      attackRange: {
-        value: '1',
-        index: ['43', '50']
-      },
-      health: {
-        value: '1',
-        index: ['42', '49']
-      }
-    },
-    monster: {
-      attack: {
-        value: '1',
-        index: '39'
-      },
-      health: {
-        value: '1',
-        index: '40'
-      }
-    },
-    crystal: {
-      attack: {
-        value: '1',
-        index: '44'
-      },
-      health: {
-        value: '1',
-        index: '45'
-      }
-    }
-  }
-})
-
-const toCustomDefineItemStingList = (index: string | string[], value: string) => {
-  if (Array.isArray(index)) {
-    return index.map(i => `${i}:${value}`)
-  }
-  return [`${index}:${value}`]
-}
 
 // 英雄修改属性表单
 type HeroConfigFormComponentProps = {
@@ -1323,166 +857,18 @@ function CrystalConfigFormComponent(props: CrystalConfigFormComponentProps) {
   )
 }
 
-const MapModeOptions = [
-  {
-    value: '[1,20011,10]',
-    label: '5v5标准模式'
-  },
-  {
-    value: '[1,20911,10]',
-    label: '5v5征召1ban位'
-  },
-  {
-    value: '[1,20912,10]',
-    label: '5v5征召2ban位'
-  },
-  {
-    value: '[1,20111,10]',
-    label: '5v5征召4ban位'
-  }
-];
-
-export type ConfigDataType = {
-  name: string // 新增
-  mapMode: string
-  banHeroNames: string[]
-  customDefineSettingData: CustomDefineSettingDataType
-  heroConfigType: string
-  lineConfigType: string
-  towerConfigType: string
-}
-
-export function loadConfigFromLocalStorage() {
-  const configString = localStorage.getItem('customDefineSettingData')
-  if (configString) {
-    return JSON.parse(configString) as ConfigDataType
-  }
-  return null
-}
-
-export function saveConfigToLocalStorage(config: ConfigDataType) {
-  localStorage.setItem('customDefineSettingData', JSON.stringify(config))
-}
-
-export function resetConfigToLocalStorage() {
-  localStorage.removeItem('customDefineSettingData')
-}
-
-export type ConfigType = {
-  mapType: number
-  mapID: number
-  teamerNum: number
-  customDefineItems: string[]
-  banHerosCamp1: string[]
-  banHerosCamp2: string[]
-  addPos: string
-  AddType: string
-  OfflineRelayEntityID: string
-  campid: string
-  createType: string
-  firstCountDownTime: string
-  openAICommentator: string
-  platType: string
-  roomName: string
-  secondCountDownTime: string
-  ullExternUid: number
-  ullRoomid: number
-}
 
 export interface ConfigFormProps {
   heroes: Hero[]
-  onConfigChange?: (config: ConfigType) => void
-  initialConfig?: Partial<ConfigDataType> // 可选的初始配置
+  onModeChange?: (mode: Mode) => void
+  initialConfig?: Mode // 可选的初始配置
 }
 
-export function toConfig(configData: ConfigDataType, heroes: Hero[]): ConfigType {
-  const { mapMode, banHeroNames, customDefineSettingData } = configData
-  
-  // 将英雄名称转换为ID
-  const banHeroIDs: string[] = banHeroNames.map(name => {
-    const hero = heroes.find((hero: Hero) => hero.cname === name)
-    return hero?.ename.toString() ?? ''
-  }).filter(id => id !== '')
-
-  // 解析地图模式
-  const [mapType, mapID, teamerNum] = JSON.parse(mapMode)
-
-  // 生成自定义配置项
-  const customDefineItems: string[] = []
-  
-  function addCustomDefineItem(item: CustomDefineSettingItem) {
-    if (Array.isArray(item.index)) {
-      item.index.forEach(i => customDefineItems.push(`${i}:${item.value}`))
-    } else {
-      customDefineItems.push(`${item.index}:${item.value}`)
-    }
-  }
-
-  // 遍历两个阵营的配置
-  for (const camp of ['blue', 'red'] as const) {
-    // 添加英雄相关配置
-    for (const hero of customDefineSettingData[camp].heroes) {
-      addCustomDefineItem(hero.level)
-      addCustomDefineItem(hero.magicAttack) 
-      addCustomDefineItem(hero.physicalAttack)
-      addCustomDefineItem(hero.coolDown)
-      addCustomDefineItem(hero.gold)
-      addCustomDefineItem(hero.speed)
-    }
-
-    // 添加兵线配置
-    addCustomDefineItem(customDefineSettingData[camp].line.attack)
-    addCustomDefineItem(customDefineSettingData[camp].line.health)
-    addCustomDefineItem(customDefineSettingData[camp].line.speed)
-    addCustomDefineItem(customDefineSettingData[camp].line.refreshSpeed)
-    addCustomDefineItem(customDefineSettingData[camp].line.spawnType)
-
-    // 添加防御塔配置
-    addCustomDefineItem(customDefineSettingData[camp].tower.attack)
-    addCustomDefineItem(customDefineSettingData[camp].tower.attackRange)
-    addCustomDefineItem(customDefineSettingData[camp].tower.health)
-
-    // 添加野怪配置
-    addCustomDefineItem(customDefineSettingData[camp].monster.attack)
-    addCustomDefineItem(customDefineSettingData[camp].monster.health)
-
-    // 添加水晶配置
-    addCustomDefineItem(customDefineSettingData[camp].crystal.attack)
-    addCustomDefineItem(customDefineSettingData[camp].crystal.health)
-  }
-
-  // 生成随机ID
-  const ullExternUid = Math.round(Math.random() * 1000000000000000000)
-  const ullRoomid = ullExternUid
-
-  return {
-    mapType,
-    mapID,
-    teamerNum,
-    customDefineItems,
-    banHerosCamp1: banHeroIDs,
-    banHerosCamp2: banHeroIDs,
-    addPos: "0",
-    AddType: "2",
-    OfflineRelayEntityID: "",
-    campid: "1", 
-    createType: "2",
-    firstCountDownTime: "6666666666",
-    openAICommentator: "1",
-    platType: "2",
-    roomName: "1",
-    secondCountDownTime: "17",
-    ullExternUid,
-    ullRoomid
-  }
-}
-
-export function ConfigFormComponent({ heroes, onConfigChange, initialConfig }: ConfigFormProps) {
-  const [customDefineSettingData, setCustomDefineSettingData] = useState<CustomDefineSettingDataType>(
-    initialConfig?.customDefineSettingData || getCustomDefineSettingData()
-  )
-  const [mapMode, setMapMode] = useState(initialConfig?.mapMode || MapModeOptions[2].value)
-  const [banHeroNames, setBanHeroNames] = useState<string[]>(initialConfig?.banHeroNames || [])
+export default function ConfigFormComponent({ heroes, onModeChange, initialConfig }: ConfigFormProps) {
+  const mode: Mode = initialConfig || generateDefaultMode()
+  const [customDefineSettingData, setCustomDefineSettingData] = useState<CustomDefineSettingDataType>(mode.settings.customDefineSettingData)
+  const [mapMode, setMapMode] = useState(mode.settings.mapMode)
+  const [banHeroNames, setBanHeroNames] = useState<string[]>(mode.settings.banHeroNames)
   const [gameConfigTab, setGameConfigTab] = useState('hero')
   const [heroConfigType, setHeroConfigType] = useState('global')
   const [currentPlayer, setCurrentPlayer] = useState<string>('1')
@@ -1490,108 +876,32 @@ export function ConfigFormComponent({ heroes, onConfigChange, initialConfig }: C
   const [lineCampType, setLineCampType] = useState('line-camp-blue')
   const [towerConfigType, setTowerConfigType] = useState('tower-global')
   const [towerCampType, setTowerCampType] = useState('tower-camp-blue')
-  // 添加 name 状态
-  const [name, setName] = useState(initialConfig?.name || '')
+  const [name, setName] = useState(mode.name)
 
-  useEffect(() => {
-    const configData = loadConfigFromLocalStorage()
-    if (configData) {
-      setName(configData.name)
-      setCustomDefineSettingData(configData.customDefineSettingData)
-      setMapMode(configData.mapMode)
-      setBanHeroNames(configData.banHeroNames)
-      setHeroConfigType(configData.heroConfigType)
-      setLineConfigType(configData.lineConfigType)
-      setTowerConfigType(configData.towerConfigType)
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (initialConfig) {
+  //     return;
+  //   }
 
-  const banHeroIDs: string[] = banHeroNames.map(name => heroes.find(hero => hero.cname === name)?.ename.toString() ?? '')
+  //   const configData = loadConfigFromLocalStorage()
+  //   if (configData) {
+  //     setName(configData.name)
+  //     setCustomDefineSettingData(configData.customDefineSettingData)
+  //     setMapMode(configData.mapMode)
+  //     setBanHeroNames(configData.banHeroNames)
+  //     setHeroConfigType(configData.heroConfigType)
+  //     setLineConfigType(configData.lineConfigType)
+  //     setTowerConfigType(configData.towerConfigType)
+  //   }
+  // }, []);
 
-  const config = useMemo(() => {
-    const customDefineItems: string[] = [];
-
-    function addCustomDefineItem(item: CustomDefineSettingItem) {
-      customDefineItems.push(...toCustomDefineItemStingList(item.index, item.value))
-    }
-
-    const [mapType, mapID, teamerNum] = JSON.parse(mapMode)
-
-    for (const heroType of ['blue', 'red']) {
-      const key = heroType as 'blue' | 'red'
-
-      // 修改英雄属性
-      for (const hero of customDefineSettingData[key].heroes) {
-        // 修改英雄等级
-        addCustomDefineItem(hero.level)
-        // 修改英雄魔法攻击力
-        addCustomDefineItem(hero.magicAttack)
-        // 修改英雄物理攻击力
-        addCustomDefineItem(hero.physicalAttack)
-        // 修改英雄技能冷却时间
-        addCustomDefineItem(hero.coolDown)
-        // 修改英雄金币
-        addCustomDefineItem(hero.gold)
-        // 修改英雄移动速度
-        addCustomDefineItem(hero.speed)
-      }
-      // 修改兵线攻击力
-      addCustomDefineItem(customDefineSettingData[key].line.attack)
-      // 修改兵线血量
-      addCustomDefineItem(customDefineSettingData[key].line.health)
-      // 修改兵线速度
-      addCustomDefineItem(customDefineSettingData[key].line.speed)
-      // 修改兵线刷新速度
-      addCustomDefineItem(customDefineSettingData[key].line.refreshSpeed)
-      // 修改兵线生成类型
-      addCustomDefineItem(customDefineSettingData[key].line.spawnType)
-    
-      // 修改防御塔攻击力
-      addCustomDefineItem(customDefineSettingData[key].tower.attack)
-      // 修改防御塔攻击范围
-      addCustomDefineItem(customDefineSettingData[key].tower.attackRange)
-      // 修改防御塔血量
-      addCustomDefineItem(customDefineSettingData[key].tower.health)
-
-      // 修改野怪攻击力
-      addCustomDefineItem(customDefineSettingData[key].monster.attack)
-      // 修改野怪血量
-      addCustomDefineItem(customDefineSettingData[key].monster.health)
-
-      // 修改水晶攻击力
-      addCustomDefineItem(customDefineSettingData[key].crystal.attack)
-      // 修改水晶血量
-      addCustomDefineItem(customDefineSettingData[key].crystal.health)
-
-    }
-    const ullExternUid = Math.round(Math.random() * 1000000000000000000);
-    const ullRoomid = ullExternUid;
-    return {
-      mapType,
-      mapID,
-      teamerNum,
-      customDefineItems,
-      banHerosCamp1: banHeroIDs,
-      banHerosCamp2: banHeroIDs,
-      addPos: "0",
-      AddType: "2",
-      OfflineRelayEntityID: "",
-      campid: "1",
-      createType: "2",
-      firstCountDownTime: "6666666666",
-      openAICommentator: "1",
-      platType: "2",
-      roomName: "1",
-      secondCountDownTime: "17",
-      ullExternUid,
-      ullRoomid,
-    }
-  }, [customDefineSettingData, mapMode, banHeroIDs])
-
-  useEffect(() => {
-    if (onConfigChange) {
-      const configData = {
-        name,
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    onModeChange?.({
+      id: '',
+      name,
+      description: '',
+      settings: {
         mapMode,
         banHeroNames,
         customDefineSettingData,
@@ -1599,50 +909,6 @@ export function ConfigFormComponent({ heroes, onConfigChange, initialConfig }: C
         lineConfigType,
         towerConfigType
       }
-      const config = toConfig(configData, heroes)
-      onConfigChange(config)
-    }
-  }, [mapMode, customDefineSettingData, banHeroNames, onConfigChange])
-
-  const getCustomDefineItems = (data: CustomDefineSettingDataType) => {
-    const items: string[] = []
-    
-    function addCustomDefineItem(item: CustomDefineSettingItem) {
-      items.push(...toCustomDefineItemStingList(item.index, item.value))
-    }
-
-    for (const heroType of ['blue', 'red']) {
-      const key = heroType as 'blue' | 'red'
-      
-      // 添加英雄相关配置
-      for (const hero of data[key].heroes) {
-        addCustomDefineItem(hero.level)
-        addCustomDefineItem(hero.magicAttack)
-        addCustomDefineItem(hero.physicalAttack)
-        addCustomDefineItem(hero.coolDown)
-        addCustomDefineItem(hero.gold)
-        addCustomDefineItem(hero.speed)
-      }
-
-      // 添加其他配置项...
-      addCustomDefineItem(data[key].line.attack)
-      addCustomDefineItem(data[key].line.health)
-      // ... 其他配置项保持不变
-    }
-
-    return items
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    saveConfigToLocalStorage({
-      name,
-      mapMode,
-      banHeroNames,
-      customDefineSettingData,
-      heroConfigType,
-      lineConfigType,
-      towerConfigType
     })
   }
 
@@ -1654,7 +920,6 @@ export function ConfigFormComponent({ heroes, onConfigChange, initialConfig }: C
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-2">
-            {/* 添加名称输入框 */}
             <div className="space-y-2">
               <Label htmlFor="configName">模式名称</Label>
               <Input
@@ -2415,16 +1680,16 @@ export function ConfigFormComponent({ heroes, onConfigChange, initialConfig }: C
                   variant="outline" 
                   className='w-1/2'
                   onClick={() => {
-                    setName('')  // 重置名称
-                    setBanHeroNames([])
-                    setCustomDefineSettingData(getCustomDefineSettingData())
+                    const mode = generateDefaultMode()
+                    setName(mode.name)  // 重置名称
+                    setBanHeroNames(mode.settings.banHeroNames)
+                    setCustomDefineSettingData(mode.settings.customDefineSettingData)
                     setGameConfigTab('hero')
-                    setHeroConfigType('global')
+                    setHeroConfigType(mode.settings.heroConfigType)
                     setCurrentPlayer('1')
-                    setLineConfigType('line-global')
-                    setTowerConfigType('tower-global')
+                    setLineConfigType(mode.settings.lineConfigType)
+                    setTowerConfigType(mode.settings.towerConfigType)
                     setTowerCampType('tower-camp-blue')
-                    resetConfigToLocalStorage()
                   }}
                 >
                   重置

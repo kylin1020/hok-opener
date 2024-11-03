@@ -7,6 +7,7 @@ import { Toaster } from "sonner";
 import Footer from "@/components/footer";
 import { Providers } from "./providers";
 
+
 export default function RootLayout({
   children,
 }: {
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body>
         <Providers>
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>
