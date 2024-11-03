@@ -1343,7 +1343,7 @@ const MapModeOptions = [
   }
 ];
 
-type ConfigDataType = {
+export type ConfigDataType = {
   mapMode: string
   banHeroNames: string[]
   customDefineSettingData: CustomDefineSettingDataType

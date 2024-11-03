@@ -1,12 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { type GameMode } from "@/lib/constants/modes"
 
-export interface HotMode {
-  title: string
-  description: string
-  disabled: boolean
-  usageCount: number
-}
+export type HotMode = GameMode
 
 interface HotModeListProps {
   modes: HotMode[]
