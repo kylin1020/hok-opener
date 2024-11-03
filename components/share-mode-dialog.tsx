@@ -18,7 +18,7 @@ export function ShareModeDialog({ open, onOpenChange, onConfirm }: ShareModeDial
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>为你的自定义模式命名</DialogTitle>
+          <DialogTitle>为模式命名</DialogTitle>
         </DialogHeader>
         <div className="py-4">
           <Input

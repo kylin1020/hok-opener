@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -11,9 +11,13 @@ import { toast } from "sonner"
 import { copyToClipboard } from "@/lib/utils/clipboard"
 import { useRouter } from "next/navigation"
 import { ShareModeDialog } from "@/components/share-mode-dialog"
-import { getModeTitle, type GameMode } from "@/lib/constants/modes"
+import { getModeTitle } from "@/lib/constants/modes"
 import { HomeSkeleton } from "@/components/home-skeleton"
 import { ErrorDisplay } from "@/components/error-display"
+import Joyride, { Step } from 'react-joyride'
+import { type ConfigType } from '@/components/config-form';
+import Image from "next/image"
+import { LoadingDialog } from "@/components/loading-dialog"
 
 interface Mode {
   id: number
@@ -33,6 +37,50 @@ export default function Home() {
   const [currentMode, setCurrentMode] = useState<number>(1)
   const router = useRouter()
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
+  const [runTour, setRunTour] = useState(true)
+  const [isCreating, setIsCreating] = useState(false)
+
+  useEffect(() => {
+    const hasVisited = localStorage.getItem('hasVisitedBefore')
+    if (hasVisited) {
+      setRunTour(false)
+    }
+  }, [])
+
+  const steps: Step[] = [
+    {
+      target: '.title-area',
+      content: '欢迎使用小王开局助手! 这是一个帮助你快速创建王者荣耀自定义房间的工具',
+      placement: 'bottom',
+    },
+    {
+      target: '.quick-start-area', 
+      content: '你可以在这里快速选择预设的游戏模式',
+      placement: 'bottom',
+    },
+    {
+      target: '.custom-room-btn',
+      content: '或者点击这里创建完全自定义的房间',
+      placement: 'bottom',
+    },
+    {
+      target: '.current-mode-area',
+      content: '选择模式后,在这里可以看到当前选择的模式并开始游戏',
+      placement: 'bottom',
+    },
+    {
+      target: '.hot-modes-area',
+      content: '这里展示了最近热门的游戏模式',
+      placement: 'bottom',
+    }
+  ]
+
+  const handleJoyrideCallback = (data: any) => {
+    const { status } = data
+    if (status === 'finished') {
+      localStorage.setItem('hasVisitedBefore', 'true')
+    }
+  }
 
   const { data: modesData, isLoading, error } = useQuery({
     queryKey: ['modes'],
@@ -41,8 +89,31 @@ export default function Home() {
 
   const allModes = [...(modesData?.presetModes || []), ...(modesData?.hotModes || [])]
 
-  const startGame = (modeId: number) => {
-    router.push(`/room/${modeId}`)
+  const startGame = async (modeId: number) => {
+    setIsCreating(true)
+    try {
+      const response = await fetch('/api/rooms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          modeId,
+        })
+      })
+      
+      if (!response.ok) {
+        throw new Error('创建房间失败')
+      }
+      
+      const { roomId } = await response.json()
+      router.push(`/id/${roomId}`)
+    } catch (error) {
+      console.error(error)
+      toast.error("创建房间失败，请重试")
+    } finally {
+      setIsCreating(false)
+    }
   }
 
   const handleShare = async (customModeName?: string) => {
@@ -80,19 +151,58 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-purple-100 via-pink-200 to-red-200 p-4">
-      {/* 标题区域 */}
-      <div className="w-full max-w-md text-center mb-6 mt-8">
-        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
-          小王开局助手 v1.0
-        </h1>
+      <Joyride
+        steps={steps}
+        run={runTour}
+        continuous={true}
+        showSkipButton={true}
+        showProgress={true}
+        callback={handleJoyrideCallback}
+        styles={{
+          options: {
+            primaryColor: '#9333ea',
+            textColor: '#4b5563',
+          },
+          tooltipContainer: {
+            textAlign: 'left',
+          },
+          buttonNext: {
+            backgroundColor: '#9333ea',
+          },
+          buttonBack: {
+            color: '#9333ea',
+          },
+        }}
+        locale={{
+          back: '上一步',
+          close: '关闭',
+          last: '完成',
+          next: '下一步',
+          skip: '跳过',
+        }}
+      />
+
+      <div className="w-full max-w-md text-center mb-6 mt-8 title-area">
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 flex items-center gap-2">
+            小王
+            <Image 
+              src="/imgs/image.png"
+              alt="小王开局助手图标"
+              width={36}
+              height={36}
+              className="rounded-full"
+            />
+            开局助手 v1.0
+          </h1>
+        </div>
         <p className="text-gray-600 mt-2">
           自定义你的王者荣耀游戏体验
         </p>
       </div>
 
-      {/* 当前模式展示 */}
       {currentMode && (
-        <Card className="w-full max-w-md mb-6">
+        <Card className="w-full mb-6 current-mode-area">
           <CardContent className="pt-6">
             <div className="flex flex-col">
               <div className="flex items-center justify-between">
@@ -103,6 +213,7 @@ export default function Home() {
                 <Button 
                   onClick={() => startGame(currentMode)}
                   className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                  disabled={isCreating}
                 >
                   创建房间
                 </Button>
@@ -112,11 +223,15 @@ export default function Home() {
                   variant="ghost"
                   size="sm"
                   onClick={() => {
-                    const isPresetMode = modesData?.presetModes.some((mode: Mode) => mode.id === currentMode)
-                    if (isPresetMode) {
-                      handleShare()
-                    } else {
+                    if (typeof currentMode === 'undefined') {
                       setShareDialogOpen(true)
+                    } else {
+                      const isPresetMode = currentMode !== 1;
+                      if (isPresetMode) {
+                        handleShare()
+                      } else {
+                        setShareDialogOpen(true)
+                      }
                     }
                   }}
                   className="text-gray-500 hover:text-gray-700 flex items-center gap-1"
@@ -125,7 +240,7 @@ export default function Home() {
                   <span>分享模式</span>
                 </Button>
                 <button 
-                  onClick={() => {/* TODO: 添加修改参数的逻辑 */}} 
+                  onClick={() => {/* TODO: 添加修改参数逻辑 */}} 
                   className="text-sm text-gray-500 hover:text-gray-700"
                 >
                   修改模式参数 →
@@ -136,8 +251,7 @@ export default function Home() {
         </Card>
       )}
 
-      {/* 快捷按钮区域 */}
-      <Card className="w-full max-w-md mb-6">
+      <Card className="w-full mb-6 quick-start-area">
         <CardHeader>
           <CardTitle className="text-lg">快速开始</CardTitle>
         </CardHeader>
@@ -154,7 +268,7 @@ export default function Home() {
           ))}
           <Link href="/define" className="w-full">
             <Button 
-              className="w-full h-12 text-lg"
+              className="w-full h-12 text-lg custom-room-btn"
               variant="outline"
             >
               自定义房间
@@ -163,13 +277,16 @@ export default function Home() {
         </CardContent>
       </Card>
 
-      {/* 热门模式区域 */}
-      <HotModeList 
-        modes={modesData?.hotModes || []}
-        onModeClick={(mode) => {
-          setCurrentMode(mode.id)
-        }}
-      />
+      <div className="hot-modes-area w-full">
+        <HotModeList 
+          modes={modesData?.hotModes || []}
+          onModeClick={(mode) => {
+            setCurrentMode(mode.id)
+          }}
+        />
+      </div>
+
+      <LoadingDialog open={isCreating} />
 
       <ShareModeDialog 
         open={shareDialogOpen}

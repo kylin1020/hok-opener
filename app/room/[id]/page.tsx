@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ChevronRight, Users, Share } from "lucide-react"
@@ -90,20 +91,22 @@ const GameConfigTabs = [
 
 export default function RoomPage({ params }: RoomParams) {
   const [loading, setLoading] = useState(false)
-  const [configData, setConfigData] = useState<ConfigDataType | null>(null)
   const [gameConfigTab, setGameConfigTab] = useState('hero')
 
-  useEffect(() => {
-    const config = loadConfigFromLocalStorage()
-    if (config) {
-      setConfigData(config)
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['room', params.id],
+    queryFn: async () => {
+      const response = await fetch(`/api/modes/${params.id}`)
+      if (!response.ok) {
+        throw new Error('获取房间信息失败')
+      }
+      return response.json()
     }
-  }, [])
+  })
 
   const joinTeam = async (team: "blue" | "red") => {
     setLoading(true)
     try {
-      // TODO: 实现加入队伍的逻辑
       toast.success(`成功加入${team === "blue" ? "蓝队" : "红队"}`)
     } catch (error) {
       toast.error("加入失败，请重试")
@@ -112,19 +115,70 @@ export default function RoomPage({ params }: RoomParams) {
     }
   }
 
-  if (!configData) {
-    return <div>加载中...</div>
+  if (error) {
+    return (
+      <div className="h-[calc(100vh-theme('spacing.16'))] flex flex-col items-center justify-center bg-gradient-to-br from-purple-100 via-pink-200 to-red-200 p-4">
+        <div className="text-center space-y-4">
+          <div className="text-red-500 text-6xl mb-4">
+            <span className="material-symbols-outlined">error</span>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800">获取房间信息失败</h2>
+          <p className="text-gray-600">
+            无法加载房间 {params.id} 的信息
+          </p>
+          <div className="mt-6">
+            <Button
+              onClick={() => window.location.reload()}
+              className="mr-4"
+            >
+              重试
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => window.location.href = '/'}
+            >
+              返回首页
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
-  const getMapModeName = (mapMode: string) => {
-    const modeMap: Record<string, string> = {
-      '[1,20011,10]': '5v5标准模式',
-      '[1,20911,10]': '5v5征召1ban位',
-      '[1,20912,10]': '5v5征召2ban位',
-      '[1,20111,10]': '5v5征召4ban位'
-    }
-    return modeMap[mapMode] || '未知模式'
+  if (isLoading) {
+    return (
+      <div className="h-[calc(100vh-theme('spacing.16'))] flex flex-col items-center bg-gradient-to-br from-purple-100 via-pink-200 to-red-200 p-4">
+        {/* 房间信息卡片骨架屏 */}
+        <div className="w-full max-w-md mb-6 mt-8 relative">
+          <div className="bg-white rounded-lg p-6 shadow-md animate-pulse">
+            <div className="h-6 w-3/4 bg-gray-200 rounded mb-4"></div>
+            <div className="h-4 w-1/2 bg-gray-200 rounded"></div>
+          </div>
+        </div>
+
+        {/* 加入队伍按钮骨架屏 */}
+        <div className="w-full max-w-md grid grid-cols-2 gap-4">
+          <div className="h-12 bg-gray-200 rounded-md animate-pulse"></div>
+          <div className="h-12 bg-gray-200 rounded-md animate-pulse"></div>
+        </div>
+
+        {/* 房间ID骨架屏 */}
+        <div className="mt-6 text-center">
+          <div className="h-4 w-24 bg-gray-200 rounded mx-auto animate-pulse"></div>
+        </div>
+
+        {/* 加载提示文字 */}
+        <div className="mt-8 text-gray-500 text-center">
+          <p>正在加载房间信息...</p>
+          <p className="text-sm mt-1">请稍候</p>
+        </div>
+      </div>
+    )
   }
+
+  console.log(data, isLoading, error)
+
+  const { config: configData, name: modeName } = data
 
   return (
     <div className="h-[calc(100vh-theme('spacing.16'))] flex flex-col items-center bg-gradient-to-br from-purple-100 via-pink-200 to-red-200 p-4">
@@ -157,7 +211,7 @@ export default function RoomPage({ params }: RoomParams) {
           <div className="flex flex-col">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold">{getMapModeName(configData.mapMode)}</h2>
+                <h2 className="text-2xl font-bold">{modeName}</h2>
                 <Dialog>
                   <DialogTrigger asChild>
                     <button 

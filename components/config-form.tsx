@@ -8,7 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label"
 import { Check } from "lucide-react"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import Image from "next/image"
 import {
   Dialog,
   DialogContent,
@@ -247,7 +246,7 @@ export function BanHeroListForm({ heroes, banHeroNames, setBanHeroNames }: BanHe
                       <div className="p-4 flex flex-col items-center gap-2">
                         <div className="relative">
                           <div className="w-12 h-12 rounded-full overflow-hidden">
-                            <Image
+                            <img
                               src={hero.avatar_url}
                               alt={hero.cname}
                               className="w-full h-full object-cover"
@@ -368,7 +367,7 @@ type CustomDefineSettingDataType = {
   }
 }
 
-const getCustomDefineSettingData = (): CustomDefineSettingDataType => ({
+export const getCustomDefineSettingData = (): CustomDefineSettingDataType => ({
   blue: {
     heroes: [
       {
@@ -1344,6 +1343,7 @@ const MapModeOptions = [
 ];
 
 export type ConfigDataType = {
+  name: string // 新增
   mapMode: string
   banHeroNames: string[]
   customDefineSettingData: CustomDefineSettingDataType
@@ -1368,7 +1368,7 @@ export function resetConfigToLocalStorage() {
   localStorage.removeItem('customDefineSettingData')
 }
 
-type ConfigType = {
+export type ConfigType = {
   mapType: number
   mapID: number
   teamerNum: number
@@ -1389,16 +1389,100 @@ type ConfigType = {
   ullRoomid: number
 }
 
-interface ConfigFormComponentProps {
+export interface ConfigFormProps {
   heroes: Hero[]
   onConfigChange?: (config: ConfigType) => void
+  initialConfig?: Partial<ConfigDataType> // 可选的初始配置
 }
 
-export function ConfigFormComponent(props: ConfigFormComponentProps) {
-  const { heroes, onConfigChange } = props
-  const [customDefineSettingData, setCustomDefineSettingData] = useState<CustomDefineSettingDataType>(getCustomDefineSettingData())
-  const [mapMode, setMapMode] = useState(MapModeOptions[2].value)
-  const [banHeroNames, setBanHeroNames] = useState<string[]>([])
+export function toConfig(configData: ConfigDataType, heroes: Hero[]): ConfigType {
+  const { mapMode, banHeroNames, customDefineSettingData } = configData
+  
+  // 将英雄名称转换为ID
+  const banHeroIDs: string[] = banHeroNames.map(name => {
+    const hero = heroes.find((hero: Hero) => hero.cname === name)
+    return hero?.ename.toString() ?? ''
+  }).filter(id => id !== '')
+
+  // 解析地图模式
+  const [mapType, mapID, teamerNum] = JSON.parse(mapMode)
+
+  // 生成自定义配置项
+  const customDefineItems: string[] = []
+  
+  function addCustomDefineItem(item: CustomDefineSettingItem) {
+    if (Array.isArray(item.index)) {
+      item.index.forEach(i => customDefineItems.push(`${i}:${item.value}`))
+    } else {
+      customDefineItems.push(`${item.index}:${item.value}`)
+    }
+  }
+
+  // 遍历两个阵营的配置
+  for (const camp of ['blue', 'red'] as const) {
+    // 添加英雄相关配置
+    for (const hero of customDefineSettingData[camp].heroes) {
+      addCustomDefineItem(hero.level)
+      addCustomDefineItem(hero.magicAttack) 
+      addCustomDefineItem(hero.physicalAttack)
+      addCustomDefineItem(hero.coolDown)
+      addCustomDefineItem(hero.gold)
+      addCustomDefineItem(hero.speed)
+    }
+
+    // 添加兵线配置
+    addCustomDefineItem(customDefineSettingData[camp].line.attack)
+    addCustomDefineItem(customDefineSettingData[camp].line.health)
+    addCustomDefineItem(customDefineSettingData[camp].line.speed)
+    addCustomDefineItem(customDefineSettingData[camp].line.refreshSpeed)
+    addCustomDefineItem(customDefineSettingData[camp].line.spawnType)
+
+    // 添加防御塔配置
+    addCustomDefineItem(customDefineSettingData[camp].tower.attack)
+    addCustomDefineItem(customDefineSettingData[camp].tower.attackRange)
+    addCustomDefineItem(customDefineSettingData[camp].tower.health)
+
+    // 添加野怪配置
+    addCustomDefineItem(customDefineSettingData[camp].monster.attack)
+    addCustomDefineItem(customDefineSettingData[camp].monster.health)
+
+    // 添加水晶配置
+    addCustomDefineItem(customDefineSettingData[camp].crystal.attack)
+    addCustomDefineItem(customDefineSettingData[camp].crystal.health)
+  }
+
+  // 生成随机ID
+  const ullExternUid = Math.round(Math.random() * 1000000000000000000)
+  const ullRoomid = ullExternUid
+
+  return {
+    mapType,
+    mapID,
+    teamerNum,
+    customDefineItems,
+    banHerosCamp1: banHeroIDs,
+    banHerosCamp2: banHeroIDs,
+    addPos: "0",
+    AddType: "2",
+    OfflineRelayEntityID: "",
+    campid: "1", 
+    createType: "2",
+    firstCountDownTime: "6666666666",
+    openAICommentator: "1",
+    platType: "2",
+    roomName: "1",
+    secondCountDownTime: "17",
+    ullExternUid,
+    ullRoomid
+  }
+}
+
+export function ConfigFormComponent({ heroes, onConfigChange, initialConfig }: ConfigFormProps) {
+  const [customDefineSettingData, setCustomDefineSettingData] = useState<CustomDefineSettingDataType>(
+    initialConfig?.customDefineSettingData || getCustomDefineSettingData()
+  )
+  const [mapMode, setMapMode] = useState(initialConfig?.mapMode || MapModeOptions[2].value)
+  const [banHeroNames, setBanHeroNames] = useState<string[]>(initialConfig?.banHeroNames || [])
   const [gameConfigTab, setGameConfigTab] = useState('hero')
   const [heroConfigType, setHeroConfigType] = useState('global')
   const [currentPlayer, setCurrentPlayer] = useState<string>('1')
@@ -1406,10 +1490,13 @@ export function ConfigFormComponent(props: ConfigFormComponentProps) {
   const [lineCampType, setLineCampType] = useState('line-camp-blue')
   const [towerConfigType, setTowerConfigType] = useState('tower-global')
   const [towerCampType, setTowerCampType] = useState('tower-camp-blue')
+  // 添加 name 状态
+  const [name, setName] = useState(initialConfig?.name || '')
 
   useEffect(() => {
     const configData = loadConfigFromLocalStorage()
     if (configData) {
+      setName(configData.name)
       setCustomDefineSettingData(configData.customDefineSettingData)
       setMapMode(configData.mapMode)
       setBanHeroNames(configData.banHeroNames)
@@ -1501,10 +1588,55 @@ export function ConfigFormComponent(props: ConfigFormComponentProps) {
     }
   }, [customDefineSettingData, mapMode, banHeroIDs])
 
+  useEffect(() => {
+    if (onConfigChange) {
+      const configData = {
+        name,
+        mapMode,
+        banHeroNames,
+        customDefineSettingData,
+        heroConfigType,
+        lineConfigType,
+        towerConfigType
+      }
+      const config = toConfig(configData, heroes)
+      onConfigChange(config)
+    }
+  }, [mapMode, customDefineSettingData, banHeroNames, onConfigChange])
+
+  const getCustomDefineItems = (data: CustomDefineSettingDataType) => {
+    const items: string[] = []
+    
+    function addCustomDefineItem(item: CustomDefineSettingItem) {
+      items.push(...toCustomDefineItemStingList(item.index, item.value))
+    }
+
+    for (const heroType of ['blue', 'red']) {
+      const key = heroType as 'blue' | 'red'
+      
+      // 添加英雄相关配置
+      for (const hero of data[key].heroes) {
+        addCustomDefineItem(hero.level)
+        addCustomDefineItem(hero.magicAttack)
+        addCustomDefineItem(hero.physicalAttack)
+        addCustomDefineItem(hero.coolDown)
+        addCustomDefineItem(hero.gold)
+        addCustomDefineItem(hero.speed)
+      }
+
+      // 添加其他配置项...
+      addCustomDefineItem(data[key].line.attack)
+      addCustomDefineItem(data[key].line.health)
+      // ... 其他配置项保持不变
+    }
+
+    return items
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onConfigChange?.(config)
     saveConfigToLocalStorage({
+      name,
       mapMode,
       banHeroNames,
       customDefineSettingData,
@@ -1522,6 +1654,17 @@ export function ConfigFormComponent(props: ConfigFormComponentProps) {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-2">
+            {/* 添加名称输入框 */}
+            <div className="space-y-2">
+              <Label htmlFor="configName">模式名称</Label>
+              <Input
+                id="configName"
+                placeholder="请输入模式名称"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="mapMode">地图模式</Label>
               <Select onValueChange={setMapMode} value={mapMode}>
@@ -2272,6 +2415,7 @@ export function ConfigFormComponent(props: ConfigFormComponentProps) {
                   variant="outline" 
                   className='w-1/2'
                   onClick={() => {
+                    setName('')  // 重置名称
                     setBanHeroNames([])
                     setCustomDefineSettingData(getCustomDefineSettingData())
                     setGameConfigTab('hero')

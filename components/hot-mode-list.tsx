@@ -20,7 +20,7 @@ function formatNumber(num: number): string {
 
 export function HotModeList({ modes, onModeClick }: HotModeListProps) {
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle className="text-lg">热门模式</CardTitle>
       </CardHeader>
@@ -55,7 +55,7 @@ export function HotModeList({ modes, onModeClick }: HotModeListProps) {
                       variant="secondary" 
                       className="bg-purple-100 text-purple-700 hover:bg-purple-200"
                     >
-                      {formatNumber(mode.usageCount)}次
+                      {formatNumber(mode.usageCount || 0)}次
                     </Badge>
                   )}
                 </div>
