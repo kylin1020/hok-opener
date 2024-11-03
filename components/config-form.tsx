@@ -2,12 +2,13 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { Button } from "@/components/ui/button"
-import { HeroType, type Hero, type HeroAttribute } from "@/types/hero"
+import { HeroType, type Hero } from "@/types/hero"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
 import { Check } from "lucide-react"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import Image from "next/image"
 import {
   Dialog,
   DialogContent,
@@ -246,7 +247,7 @@ export function BanHeroListForm({ heroes, banHeroNames, setBanHeroNames }: BanHe
                       <div className="p-4 flex flex-col items-center gap-2">
                         <div className="relative">
                           <div className="w-12 h-12 rounded-full overflow-hidden">
-                            <img
+                            <Image
                               src={hero.avatar_url}
                               alt={hero.cname}
                               className="w-full h-full object-cover"
@@ -289,47 +290,6 @@ const GameConfigTabs = [
     value: 'tower'
   }
 ];
-
-
-interface ConfigFormData {
-
-  // 创建类型
-  createType: string;
-  // 地图ID
-  mapID: number;
-  // 房间ID
-  ullRoomid: number;
-  // 地图类型
-  mapType: number;
-  // 玩家ID
-  ullExternUid: number;
-  // 房间名称
-  roomName: string;
-  // 玩家数量
-  teamerNum: number;
-  // 平台类型
-  platType: string;
-  // 阵营ID
-  campid: string;
-  // 添加位置
-  AddPos: string;
-  // 第一次倒计时时间
-  firstCountDownTime: string;
-  // 第二次倒计时时间
-  secondCountDownTime: string;
-  // 添加类型
-  AddType: string;
-  // 离线Relay实体ID
-  OfflineRelayEntityID: string;
-  // 是否开启AI解说
-  openAICommentator: string;
-  // 禁用英雄列表
-  banHerosCamp1: string[];
-
-  banHerosCamp2: string[];
-  // 自定义玩法
-  customDefineItems: string[];
-};
 
 interface CustomDefineSettingItem {
   name?: string;
@@ -1539,7 +1499,7 @@ export function ConfigFormComponent(props: ConfigFormComponentProps) {
       ullExternUid,
       ullRoomid,
     }
-  }, [customDefineSettingData, mapMode])
+  }, [customDefineSettingData, mapMode, banHeroIDs])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
