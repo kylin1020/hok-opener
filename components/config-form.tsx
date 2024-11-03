@@ -98,6 +98,8 @@ export function BanHeroListForm({ heroes, banHeroNames, setBanHeroNames }: BanHe
   const [disableUnselectable, setDisableUnselectable] = useState(false)
   // 禁全图施法
   const [disableGlobalSkills, setDisableGlobalSkills] = useState(false)
+  // 仅坦克
+  const [onlyTank, setOnlyTank] = useState(false)
 
   const selectedHeroNamesDescription = useMemo(() => {
     if (banHeroNames.length === 0) {
@@ -149,73 +151,95 @@ export function BanHeroListForm({ heroes, banHeroNames, setBanHeroNames }: BanHe
           <DialogHeader>
             <DialogTitle>选择禁用英雄</DialogTitle>
           </DialogHeader>
-          <div className="flex items-center space-x-2 py-4">
+          <div className="flex flex-col space-y-2 py-4">
             <span className="text-sm font-medium">快捷禁用:</span>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="disable-invincible"
-                checked={disableInvincible}
-                onCheckedChange={(checked) => {
-                  setDisableInvincible(checked as boolean);
-                  if (!checked) {
-                    const newBanHeroNames = banHeroNames.filter(name => !InvincibleHeroes.includes(name));
-                    setBanHeroNames(newBanHeroNames);
-                  } else {
-                    const newBanHeroNames = [...banHeroNames, ...InvincibleHeroes.filter(hero => !banHeroNames.includes(hero))];
-                    setBanHeroNames(newBanHeroNames);
-                  }
-                }}
-              />
-              <label
-                htmlFor="disable-invincible"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                禁无敌
-              </label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="disable-unavailable"
-                checked={disableUnselectable}
-                onCheckedChange={(checked) => {
-                  setDisableUnselectable(checked as boolean);
-                  if (!checked) {
-                    const newBanHeroNames = banHeroNames.filter(name => !UnselectableHeroes.includes(name));
-                    setBanHeroNames(newBanHeroNames);
-                  } else {
-                    const newBanHeroNames = [...banHeroNames, ...UnselectableHeroes.filter(hero => !banHeroNames.includes(hero))];
-                    setBanHeroNames(newBanHeroNames);
-                  }
-                }}
-              />
-              <label
-                htmlFor="disable-unavailable"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                禁无法选中
-              </label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="disable-global-skills"
-                checked={disableGlobalSkills}
-                onCheckedChange={(checked) => {
-                  setDisableGlobalSkills(checked as boolean);
-                  if (!checked) {
-                    const newBanHeroNames = banHeroNames.filter(name => !GlobalSkillsHeroes.includes(name));
-                    setBanHeroNames(newBanHeroNames);
-                  } else {
-                    const newBanHeroNames = [...banHeroNames, ...GlobalSkillsHeroes.filter(hero => !banHeroNames.includes(hero))];
-                    setBanHeroNames(newBanHeroNames);
-                  }
-                }}
-              />
-              <label
-                htmlFor="disable-global-skills"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                禁全图施法
-              </label>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="disable-invincible"
+                  checked={disableInvincible}
+                  onCheckedChange={(checked) => {
+                    setDisableInvincible(checked as boolean);
+                    if (!checked) {
+                      const newBanHeroNames = banHeroNames.filter(name => !InvincibleHeroes.includes(name));
+                      setBanHeroNames(newBanHeroNames);
+                    } else {
+                      const newBanHeroNames = [...banHeroNames, ...InvincibleHeroes.filter(hero => !banHeroNames.includes(hero))];
+                      setBanHeroNames(newBanHeroNames);
+                    }
+                  }}
+                />
+                <label
+                  htmlFor="disable-invincible"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  禁无敌
+                </label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="disable-unavailable"
+                  checked={disableUnselectable}
+                  onCheckedChange={(checked) => {
+                    setDisableUnselectable(checked as boolean);
+                    if (!checked) {
+                      const newBanHeroNames = banHeroNames.filter(name => !UnselectableHeroes.includes(name));
+                      setBanHeroNames(newBanHeroNames);
+                    } else {
+                      const newBanHeroNames = [...banHeroNames, ...UnselectableHeroes.filter(hero => !banHeroNames.includes(hero))];
+                      setBanHeroNames(newBanHeroNames);
+                    }
+                  }}
+                />
+                <label
+                  htmlFor="disable-unavailable"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  禁无法选中
+                </label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="disable-global-skills"
+                  checked={disableGlobalSkills}
+                  onCheckedChange={(checked) => {
+                    setDisableGlobalSkills(checked as boolean);
+                    if (!checked) {
+                      const newBanHeroNames = banHeroNames.filter(name => !GlobalSkillsHeroes.includes(name));
+                      setBanHeroNames(newBanHeroNames);
+                    } else {
+                      const newBanHeroNames = [...banHeroNames, ...GlobalSkillsHeroes.filter(hero => !banHeroNames.includes(hero))];
+                      setBanHeroNames(newBanHeroNames);
+                    }
+                  }}
+                />
+                <label
+                  htmlFor="disable-global-skills"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  禁全图施法
+                </label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="only-tank"
+                  checked={onlyTank}
+                  onCheckedChange={(checked) => {
+                    setOnlyTank(checked as boolean);
+                    if (checked) {
+                      setBanHeroNames(heroes.filter(hero => ![hero.hero_type, hero.hero_type2].includes(HeroType.Tank)).map(hero => hero.cname))
+                    } else {
+                      setBanHeroNames([])
+                    }
+                  }}
+                />
+                <label
+                  htmlFor="only-tank"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  仅坦克
+                </label>
+              </div>
             </div>
           </div>
           <div className="flex-grow overflow-y-auto py-4">
@@ -429,7 +453,7 @@ function HeroConfigFormComponent(props: HeroConfigFormComponentProps) {
           },
           {
             value: '5',
-            label: '100%加成'
+            label: '99%加成'
           }
         ]}
         initialValue={coolDownInitialValue}
@@ -861,11 +885,11 @@ function CrystalConfigFormComponent(props: CrystalConfigFormComponentProps) {
 export interface ConfigFormProps {
   heroes: Hero[]
   onModeChange?: (mode: Mode) => void
-  initialConfig?: Mode // 可选的初始配置
+  currentMode?: Mode // 可选的初始配置
 }
 
-export default function ConfigFormComponent({ heroes, onModeChange, initialConfig }: ConfigFormProps) {
-  const mode: Mode = initialConfig || generateDefaultMode()
+export default function ConfigFormComponent({ heroes, onModeChange, currentMode }: ConfigFormProps) {
+  const mode: Mode = currentMode || generateDefaultMode()
   const [customDefineSettingData, setCustomDefineSettingData] = useState<CustomDefineSettingDataType>(mode.settings.customDefineSettingData)
   const [mapMode, setMapMode] = useState(mode.settings.mapMode)
   const [banHeroNames, setBanHeroNames] = useState<string[]>(mode.settings.banHeroNames)
@@ -877,6 +901,7 @@ export default function ConfigFormComponent({ heroes, onModeChange, initialConfi
   const [towerConfigType, setTowerConfigType] = useState('tower-global')
   const [towerCampType, setTowerCampType] = useState('tower-camp-blue')
   const [name, setName] = useState(mode.name)
+  const [description, setDescription] = useState(mode.description)
 
   // useEffect(() => {
   //   if (initialConfig) {
@@ -900,7 +925,7 @@ export default function ConfigFormComponent({ heroes, onModeChange, initialConfi
     onModeChange?.({
       id: '',
       name,
-      description: '',
+      description,
       settings: {
         mapMode,
         banHeroNames,
@@ -927,6 +952,15 @@ export default function ConfigFormComponent({ heroes, onModeChange, initialConfi
                 placeholder="请输入模式名称"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="configDescription">模式描述</Label>
+              <Input
+                id="configDescription"
+                placeholder="请输入模式描述(选填)"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </div>
 

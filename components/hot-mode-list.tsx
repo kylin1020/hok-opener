@@ -6,7 +6,7 @@ import { type Mode } from "@/types/mode"
 interface HotModeListProps {
   modes: Mode[]
   onModeClick: (mode: Mode) => void
-  currentMode?: string
+  currentMode?: Mode
 }
 
 function formatNumber(num: number): string {
@@ -31,7 +31,7 @@ export function HotModeList({ modes, onModeClick, currentMode }: HotModeListProp
             className={cn(
               "relative overflow-hidden transition-all",
               "cursor-pointer hover:scale-[1.02] hover:shadow-md",
-              currentMode === mode.id ? [
+              currentMode?.id === mode.id ? [
                 "border-2 border-purple-500",
                 "bg-purple-50/50",
                 "shadow-[0_0_15px_rgba(168,85,247,0.15)]",

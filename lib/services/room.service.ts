@@ -1,5 +1,7 @@
 import clientPromise from '@/lib/mongodb'
-import { Room } from '@/lib/types'
+import { Mode } from '@/types/mode'
+import { Room } from '@/types/room'
+import { ObjectId } from 'mongodb'
 
 export class RoomService {
   private static async getCollection() {
@@ -8,24 +10,23 @@ export class RoomService {
     return db.collection('rooms')
   }
 
-  static async createRoom(config: any): Promise<string> {
+  static async createRoom(mode: Mode): Promise<string> {
     const collection = await this.getCollection()
     
-    const roomId = Math.random().toString(36).substring(2, 15)
     const room = {
-      roomId,
-      config,
+      mode,
       createdAt: new Date(),
       status: 'active'
     }
     
-    await collection.insertOne(room)
+    const result = await collection.insertOne(room)
+    const roomId = result.insertedId.toString()
     return roomId
   }
 
   static async getRoom(roomId: string): Promise<Room | null> {
     const collection = await this.getCollection()
-    const room = await collection.findOne({ roomId })
+    const room = await collection.findOne({ _id: new ObjectId(roomId) })
     return room as Room | null
   }
 } 

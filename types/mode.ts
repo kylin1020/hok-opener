@@ -93,6 +93,7 @@ export type Mode = {
     description?: string
     settings: ModeSetting
     usageCount?: number
+    createdAt?: Date
 }
 
 // 游戏配置

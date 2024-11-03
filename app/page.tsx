@@ -6,17 +6,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { HotModeList } from "@/components/hot-mode-list"
 import { Share } from "lucide-react"
-import { toast } from "sonner"
+import { toast, Toaster } from "sonner"
 import { copyToClipboard } from "@/lib/utils/clipboard"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
+import { generateDefaultMode } from "@/lib/mode";
 import { ShareModeDialog } from "@/components/share-mode-dialog"
-import { getModeTitle } from "@/lib/constants/modes"
 import { HomeSkeleton } from "@/components/home-skeleton"
 import { ErrorDisplay } from "@/components/error-display"
 import Joyride, { Step } from 'react-joyride'
 import Image from "next/image"
 import { LoadingDialog } from "@/components/loading-dialog"
-import { type Mode } from "@/types/mode"
+import { Mode } from "@/types/mode"
 
 async function fetchModes() {
   const response = await fetch('/api/modes')
@@ -26,18 +26,31 @@ async function fetchModes() {
   return response.json()
 }
 
+async function fetchModeById(modeId: string) {
+  const response = await fetch(`/api/modes/${modeId}`)
+  if (!response.ok) {
+    throw new Error('Failed to fetch mode')
+  }
+  const result = await response.json()
+  if (result.code !== 0) {
+    throw new Error(result.message)
+  }
+  return result.data
+}
+
+function loadModeFromLocalStorage() {
+  const mode = localStorage.getItem('currentMode')
+  return mode ? JSON.parse(mode) : undefined
+}
+
 export default function Home() {
-  const [currentMode, setCurrentMode] = useState<string | undefined>(() => {
-    if (typeof window !== 'undefined') {
-      const savedMode = localStorage.getItem('currentMode')
-      return savedMode ? savedMode : "2"
-    }
-    return "2"
-  })
+  const [currentMode, setCurrentMode] = useState<Mode | undefined>(loadModeFromLocalStorage())
   const router = useRouter()
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
   const [runTour, setRunTour] = useState(true)
   const [isCreating, setIsCreating] = useState(false)
+  const searchParams = useSearchParams()
+  const modeId = searchParams.get('modeId')
 
   useEffect(() => {
     const hasVisited = localStorage.getItem('hasVisitedBefore')
@@ -48,7 +61,7 @@ export default function Home() {
 
   useEffect(() => {
     if (currentMode) {
-      localStorage.setItem('currentMode', currentMode)
+      localStorage.setItem('currentMode', JSON.stringify(currentMode))
     }
   }, [currentMode])
 
@@ -88,31 +101,44 @@ export default function Home() {
   }
 
   const { data: modesData, isLoading, error } = useQuery({
-    queryKey: ['modes'],
-    queryFn: fetchModes
+    queryKey: ['modes', modeId],
+    queryFn: async () => {
+      const modes = await fetchModes();
+      if (!currentMode && modes.presetModes.length > 0) {
+        setCurrentMode(modes.presetModes[0]);
+      }
+      if (modeId) {
+        const modeData = await fetchModeById(modeId);
+        setCurrentMode(modeData);
+      }
+      return {
+        presetModes: modes.presetModes,
+        hotModes: modes.hotModes
+      };
+    },
   })
 
-  const allModes = [...(modesData?.presetModes || []), ...(modesData?.hotModes || [])]
-
-  const startGame = async (modeId: string) => {
+  const startGame = async (mode: Mode) => {
     setIsCreating(true)
     try {
-      const response = await fetch('/api/rooms', {
+      const response = await fetch('/api/rooms/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          modeId,
-        })
+        body: JSON.stringify(mode)
       })
       
       if (!response.ok) {
         throw new Error('创建房间失败')
       }
       
-      const { roomId } = await response.json()
-      router.push(`/id/${roomId}`)
+      const { data, code, message } = await response.json()
+      if (code !== 0) {
+        toast.error(message)
+      } else {
+        router.push(`/room/${data.roomId}`)
+      }
     } catch (error) {
       console.error(error)
       toast.error("创建房间失败，请重试")
@@ -187,6 +213,8 @@ export default function Home() {
         }}
       />
 
+      <Toaster richColors />
+
       <div className="w-full max-w-md text-center mb-6 mt-8 title-area">
         <div className="flex items-center justify-center gap-2 mb-2">
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 flex items-center gap-2">
@@ -213,7 +241,7 @@ export default function Home() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-500">当前选择</p>
-                  <p className="text-lg font-semibold">{getModeTitle(allModes, currentMode)}</p>
+                  <p className="text-lg font-semibold">{currentMode?.name}</p>
                 </div>
                 <Button 
                   onClick={() => startGame(currentMode)}
@@ -240,7 +268,9 @@ export default function Home() {
                   <span>分享模式</span>
                 </Button>
                 <button 
-                  onClick={() => {/* TODO: 添加修改参数逻辑 */}} 
+                  onClick={() => {
+                    router.push('/mode/create')
+                  }} 
                   className="text-sm text-gray-500 hover:text-gray-700"
                 >
                   修改模式参数 →
@@ -259,7 +289,15 @@ export default function Home() {
           <Button 
               className="w-full h-12 text-lg custom-room-btn"
             variant="outline"
-            onClick={() => router.push('/define')}
+            onClick={() => {
+              setCurrentMode({
+                ...generateDefaultMode(),
+                id: "",
+                name: "自定义房间",
+                description: "自定义房间",
+              })
+              router.push('/mode/create')
+            }}
           >
             自定义房间
           </Button>
@@ -268,7 +306,7 @@ export default function Home() {
               key={mode.id}
               className="w-full h-12 text-lg"
               variant="default"
-              onClick={() => setCurrentMode(mode.id)}
+              onClick={() => setCurrentMode(mode)}
             >
               {mode.name}
             </Button>
@@ -276,15 +314,17 @@ export default function Home() {
         </CardContent>
       </Card>
 
-      <div className="hot-modes-area w-full">
-        <HotModeList 
-          modes={modesData?.hotModes || []}
-          onModeClick={(mode) => {
-            setCurrentMode(mode.id)
-          }}
-          currentMode={currentMode}
-        />
-      </div>
+      {(modesData?.hotModes?.length ?? 0) > 0 && (
+        <div className="hot-modes-area w-full">
+          <HotModeList 
+            modes={modesData?.hotModes || []}
+            onModeClick={(mode) => {
+              setCurrentMode(mode)
+            }}
+            currentMode={currentMode}
+          />
+        </div>
+      )}
 
       <LoadingDialog open={isCreating} />
 

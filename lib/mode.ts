@@ -85,21 +85,29 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[]): GameConf
   }
 }
 
+export const MapModeType = {
+  Standard: "[1,20011,10]",
+  OneBan: "[1,20911,10]",
+  TwoBan: "[1,20912,10]",
+  ThreeBan: "[1,20913,10]",
+  FourBan: "[1,20914,10]",
+}
+
 export const MapModeOptions = [
     {
-      value: '[1,20011,10]',
+      value: MapModeType.Standard,
       label: '5v5标准模式'
     },
     {
-      value: '[1,20911,10]',
+      value: MapModeType.OneBan,
       label: '5v5征召1ban位'
     },
     {
-      value: '[1,20912,10]',
+      value: MapModeType.TwoBan,
       label: '5v5征召2ban位'
     },
     {
-      value: '[1,20111,10]',
+      value: MapModeType.FourBan,
       label: '5v5征召4ban位'
     }
   ];

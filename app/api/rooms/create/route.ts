@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server'
 import { RoomService } from '@/lib/services/room.service'
+import { ModeService } from '@/lib/services/mode.service'
+import { Mode } from '@/types/mode'
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    const body: Mode = await request.json()
     const roomId = await RoomService.createRoom(body)
-    
+    if (body.id) {
+      await ModeService.increaseUsageCount(body.id)
+    }
     return NextResponse.json({
       code: 0,
       data: { roomId },
