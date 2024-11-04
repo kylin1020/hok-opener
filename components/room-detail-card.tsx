@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ChevronRight, Users, Share } from "lucide-react"
+import { ChevronRight, Share } from "lucide-react"
 import { toast, Toaster } from "sonner"
 import { Room } from "@/types/room"
 import { Mode } from "@/types/mode"
@@ -136,6 +136,7 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
         window.location.href = gameURI
       }
     } catch (error) {
+      console.log(error);
       toast.error("加入失败，请重试") 
     } finally {
       setLoading(false)

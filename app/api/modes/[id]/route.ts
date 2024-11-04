@@ -12,6 +12,7 @@ export async function GET(
     }
     return NextResponse.json({ code: 0, data: mode, message: 'success' })
   } catch (error) {
+    console.error(error)
     return NextResponse.json(
       { code: 500, message: '获取模式失败' },
       { status: 500 }

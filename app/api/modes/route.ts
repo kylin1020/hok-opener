@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server"
 import { type Mode } from "@/types/mode"
-import { generateDefaultMode } from "@/lib/mode";
 import { ModeService } from "@/lib/services/mode.service";
-import { ObjectId } from "mongodb";
 import { MapModeType } from "@/lib/mode";
 
 // 模拟数据库中的数据

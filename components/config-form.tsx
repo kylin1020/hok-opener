@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { Button } from "@/components/ui/button"
 import { HeroType, type Hero } from "@/types/hero"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -20,7 +20,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { GenericSelectorComponent } from './generic-selector'
-import { Mode, ModeSetting, CustomDefineSettingDataType, CustomDefineSettingItem } from '@/types/mode'
+import { Mode, CustomDefineSettingDataType } from '@/types/mode'
 import { generateDefaultMode, MapModeOptions } from '@/lib/mode'
 
 const heroTypeOptions = [

@@ -93,7 +93,7 @@ export default function Home() {
     }
   ]
 
-  const handleJoyrideCallback = (data: any) => {
+  const handleJoyrideCallback = (data: { status: string }) => {
     const { status } = data
     if (status === 'finished') {
       localStorage.setItem('hasVisitedBefore', 'true')
