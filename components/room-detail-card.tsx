@@ -129,7 +129,7 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
       gameConfig.campid = team === "blue" ? "1" : "2"
       toast.success(`成功加入${team === "blue" ? "蓝队" : "红队"}, 等待跳转至游戏...`)
       // 将gameConfig进行base64后拼接
-      const gameURI = `https://h5.nes.smoba.qq.com/pvpesport.web.user/#/launch-game-mp-qq?gamedata=SmobaLaunch_${atob(JSON.stringify(gameConfig))}`
+      const gameURI = `https://h5.nes.smoba.qq.com/pvpesport.web.user/#/launch-game-mp-qq?gamedata=SmobaLaunch_${btoa(JSON.stringify(gameConfig))}`
       if (window.top) {
         window.top.location.href = gameURI
       } else {
