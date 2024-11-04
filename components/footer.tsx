@@ -58,7 +58,7 @@ export default function Footer() {
               <p className="text-sm text-gray-500">扫描下方二维码进行赞助</p>
             </div>
             <img 
-              src="/imgs/qrcode.jpg" 
+              src="/imgs/qrcode.png" 
               alt="赞助二维码" 
               className="w-64 h-64 object-cover"
             />
