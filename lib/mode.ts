@@ -19,10 +19,12 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[]): GameConf
   const customDefineItems: string[] = []
   
   function addCustomDefineItem(item: CustomDefineSettingItem) {
+    if (item.value === '1') return
+
     if (Array.isArray(item.index)) {
-      item.index.forEach(i => customDefineItems.push(`${i}:${item.value}`))
+      item.index.forEach(i => customDefineItems.push(`${i}:${parseInt(item.value) - 1}`))
     } else {
-      customDefineItems.push(`${item.index}:${item.value}`)
+      customDefineItems.push(`${item.index}:${parseInt(item.value) - 1}`)
     }
   }
 
