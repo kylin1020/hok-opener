@@ -11,11 +11,17 @@ import { ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 function loadModeFromLocalStorage() {
+  if (typeof window === 'undefined') {
+    return null
+  }
   const mode = localStorage.getItem('currentMode')
   return mode ? JSON.parse(mode) : null
 }
 
 function saveModeToLocalStorage(mode: Mode) {
+  if (typeof window === 'undefined') {
+    return
+  }
   localStorage.setItem('currentMode', JSON.stringify(mode))
 }
 

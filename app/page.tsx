@@ -8,7 +8,7 @@ import { HotModeList } from "@/components/hot-mode-list"
 import { Share } from "lucide-react"
 import { toast, Toaster } from "sonner"
 import { copyToClipboard } from "@/lib/utils/clipboard"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { generateDefaultMode } from "@/lib/mode";
 import { ShareModeDialog } from "@/components/share-mode-dialog"
 import { HomeSkeleton } from "@/components/home-skeleton"
@@ -26,19 +26,22 @@ async function fetchModes() {
   return response.json()
 }
 
-async function fetchModeById(modeId: string) {
-  const response = await fetch(`/api/modes/${modeId}`)
-  if (!response.ok) {
-    throw new Error('Failed to fetch mode')
-  }
-  const result = await response.json()
-  if (result.code !== 0) {
-    throw new Error(result.message)
-  }
-  return result.data
-}
+// async function fetchModeById(modeId: string) {
+//   const response = await fetch(`/api/modes/${modeId}`)
+//   if (!response.ok) {
+//     throw new Error('Failed to fetch mode')
+//   }
+//   const result = await response.json()
+//   if (result.code !== 0) {
+//     throw new Error(result.message)
+//   }
+//   return result.data
+// }
 
 function loadModeFromLocalStorage() {
+  if (typeof window === 'undefined') {
+    return undefined
+  }
   const mode = localStorage.getItem('currentMode')
   return mode ? JSON.parse(mode) : undefined
 }
@@ -49,10 +52,11 @@ export default function Home() {
   const [shareDialogOpen, setShareDialogOpen] = useState(false)
   const [runTour, setRunTour] = useState(true)
   const [isCreating, setIsCreating] = useState(false)
-  const searchParams = useSearchParams()
-  const modeId = searchParams.get('modeId')
 
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      return
+    }
     const hasVisited = localStorage.getItem('hasVisitedBefore')
     if (hasVisited) {
       setRunTour(false)
@@ -60,7 +64,7 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    if (currentMode) {
+    if (currentMode && typeof window !== 'undefined') {
       localStorage.setItem('currentMode', JSON.stringify(currentMode))
     }
   }, [currentMode])
@@ -95,21 +99,17 @@ export default function Home() {
 
   const handleJoyrideCallback = (data: { status: string }) => {
     const { status } = data
-    if (status === 'finished') {
+    if (status === 'finished' && typeof window !== 'undefined') {
       localStorage.setItem('hasVisitedBefore', 'true')
     }
   }
 
   const { data: modesData, isLoading, error } = useQuery({
-    queryKey: ['modes', modeId],
+    queryKey: ['modes'],
     queryFn: async () => {
       const modes = await fetchModes();
       if (!currentMode && modes.presetModes.length > 0) {
         setCurrentMode(modes.presetModes[0]);
-      }
-      if (modeId) {
-        const modeData = await fetchModeById(modeId);
-        setCurrentMode(modeData);
       }
       return {
         presetModes: modes.presetModes,
