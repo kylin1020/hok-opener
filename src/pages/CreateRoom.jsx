@@ -1,14 +1,10 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export default function CreateRoom() {
   const [roomName, setRoomName] = useState('');
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 这里添加创建房间的逻辑
-    // ...
     
     // 创建成功后跳转到新房间
     navigate(`/room/${roomId}`);
