@@ -1,4 +1,4 @@
-import { getHeroes } from "@/services/heroes"
+import { heroes } from "@/services/heroes"
 import RoomDetailCard from "@/components/room-detail-card"
 
 interface RoomParams {
@@ -8,7 +8,6 @@ interface RoomParams {
 }
 
 export default async function RoomPage({ params }: RoomParams) {
-  const heroes = await getHeroes()
   return (
     <RoomDetailCard roomId={params.id} heroes={heroes} />
   );
