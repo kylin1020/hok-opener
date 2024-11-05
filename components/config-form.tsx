@@ -395,6 +395,10 @@ function HeroConfigFormComponent(props: HeroConfigFormComponentProps) {
           },
           {
             value: '5',
+            label: '75%加成'
+          },
+          {
+            value: '6',
             label: '100%加成'
           }
         ]}
@@ -424,6 +428,10 @@ function HeroConfigFormComponent(props: HeroConfigFormComponentProps) {
           },
           {
             value: '5',
+            label: '75%加成'
+          },
+          {
+            value: '6',
             label: '100%加成'
           }
         ]}
