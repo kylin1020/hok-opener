@@ -104,7 +104,7 @@ export type GameConfig = {
     customDefineItems: string[]
     banHerosCamp1: string[]
     banHerosCamp2: string[]
-    addPos: string
+    AddPos: string
     AddType: string
     OfflineRelayEntityID: string
     campid: string

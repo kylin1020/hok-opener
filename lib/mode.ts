@@ -38,6 +38,7 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[]): GameConf
   addCustomDefineItem(customDefineSettingData.red.heroes[2].level)
   addCustomDefineItem(customDefineSettingData.red.heroes[3].level)
   addCustomDefineItem(customDefineSettingData.red.heroes[4].level)
+
   addCustomDefineItem(customDefineSettingData.blue.heroes[0].magicAttack)
   addCustomDefineItem(customDefineSettingData.blue.heroes[1].magicAttack)
   addCustomDefineItem(customDefineSettingData.blue.heroes[2].magicAttack)
@@ -127,7 +128,7 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[]): GameConf
     teamerNum,
     platType: "2",
     campid: "1",
-    addPos: "0",
+    AddPos: "0",
     firstCountDownTime: "6666666666",
     secondCountDownTime: "17",
     AddType: "2",
@@ -335,15 +336,15 @@ export function generateDefaultMode(): Mode {
                     tower: {
                       attack: {
                           value: '1',
-                          index: ['13', '22']
+                          index: ['13']
                       },
                       attackRange: {
                         value: '1',
-                        index: ['15', '24']
+                        index: ['15']
                       },
                       health: {
                         value: '1',
-                        index: ['14', '23']
+                        index: ['14']
                       }
                     },
                     monster: {
@@ -525,15 +526,15 @@ export function generateDefaultMode(): Mode {
                     tower: {
                       attack: {
                         value: '1',
-                        index: ['41', '48']
+                        index: ['41']
                       },
                       attackRange: {
                         value: '1',
-                        index: ['43', '50']
+                        index: ['43']
                       },
                       health: {
                         value: '1',
-                        index: ['42', '49']
+                        index: ['42']
                       }
                     },
                     monster: {
