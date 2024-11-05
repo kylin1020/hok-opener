@@ -28,62 +28,114 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[]): GameConf
     }
   }
 
-  // 遍历两个阵营的配置
-  for (const camp of ['blue', 'red'] as const) {
-    // 添加英雄相关配置
-    for (const hero of customDefineSettingData[camp].heroes) {
-      addCustomDefineItem(hero.level)
-      addCustomDefineItem(hero.magicAttack) 
-      addCustomDefineItem(hero.physicalAttack)
-      addCustomDefineItem(hero.coolDown)
-      addCustomDefineItem(hero.gold)
-      addCustomDefineItem(hero.speed)
-    }
-
-    // 添加兵线配置
-    addCustomDefineItem(customDefineSettingData[camp].line.attack)
-    addCustomDefineItem(customDefineSettingData[camp].line.health)
-    addCustomDefineItem(customDefineSettingData[camp].line.speed)
-    addCustomDefineItem(customDefineSettingData[camp].line.refreshSpeed)
-    addCustomDefineItem(customDefineSettingData[camp].line.spawnType)
-
-    // 添加防御塔配置
-    addCustomDefineItem(customDefineSettingData[camp].tower.attack)
-    addCustomDefineItem(customDefineSettingData[camp].tower.attackRange)
-    addCustomDefineItem(customDefineSettingData[camp].tower.health)
-
-    // 添加野怪配置
-    addCustomDefineItem(customDefineSettingData[camp].monster.attack)
-    addCustomDefineItem(customDefineSettingData[camp].monster.health)
-
-    // 添加水晶配置
-    addCustomDefineItem(customDefineSettingData[camp].crystal.attack)
-    addCustomDefineItem(customDefineSettingData[camp].crystal.health)
-  }
+  addCustomDefineItem(customDefineSettingData.blue.heroes[0].level)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[1].level)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[2].level)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[3].level)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[4].level)
+  addCustomDefineItem(customDefineSettingData.red.heroes[0].level)
+  addCustomDefineItem(customDefineSettingData.red.heroes[1].level)
+  addCustomDefineItem(customDefineSettingData.red.heroes[2].level)
+  addCustomDefineItem(customDefineSettingData.red.heroes[3].level)
+  addCustomDefineItem(customDefineSettingData.red.heroes[4].level)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[0].magicAttack)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[1].magicAttack)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[2].magicAttack)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[3].magicAttack)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[4].magicAttack)
+  addCustomDefineItem(customDefineSettingData.red.heroes[0].magicAttack)
+  addCustomDefineItem(customDefineSettingData.red.heroes[1].magicAttack)
+  addCustomDefineItem(customDefineSettingData.red.heroes[2].magicAttack)
+  addCustomDefineItem(customDefineSettingData.red.heroes[3].magicAttack)
+  addCustomDefineItem(customDefineSettingData.red.heroes[4].magicAttack)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[0].physicalAttack)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[1].physicalAttack)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[2].physicalAttack)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[3].physicalAttack)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[4].physicalAttack)
+  addCustomDefineItem(customDefineSettingData.red.heroes[0].physicalAttack)
+  addCustomDefineItem(customDefineSettingData.red.heroes[1].physicalAttack)
+  addCustomDefineItem(customDefineSettingData.red.heroes[2].physicalAttack)
+  addCustomDefineItem(customDefineSettingData.red.heroes[3].physicalAttack)
+  addCustomDefineItem(customDefineSettingData.red.heroes[4].physicalAttack)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[0].coolDown)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[1].coolDown)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[2].coolDown)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[3].coolDown)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[4].coolDown)
+  addCustomDefineItem(customDefineSettingData.red.heroes[0].coolDown)
+  addCustomDefineItem(customDefineSettingData.red.heroes[1].coolDown)
+  addCustomDefineItem(customDefineSettingData.red.heroes[2].coolDown)
+  addCustomDefineItem(customDefineSettingData.red.heroes[3].coolDown)
+  addCustomDefineItem(customDefineSettingData.red.heroes[4].coolDown)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[0].gold)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[1].gold)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[2].gold)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[3].gold)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[4].gold)
+  addCustomDefineItem(customDefineSettingData.red.heroes[0].gold)
+  addCustomDefineItem(customDefineSettingData.red.heroes[1].gold)
+  addCustomDefineItem(customDefineSettingData.red.heroes[2].gold)
+  addCustomDefineItem(customDefineSettingData.red.heroes[3].gold)
+  addCustomDefineItem(customDefineSettingData.red.heroes[4].gold)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[0].speed)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[1].speed)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[2].speed)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[3].speed)
+  addCustomDefineItem(customDefineSettingData.blue.heroes[4].speed)
+  addCustomDefineItem(customDefineSettingData.red.heroes[0].speed)
+  addCustomDefineItem(customDefineSettingData.red.heroes[1].speed)
+  addCustomDefineItem(customDefineSettingData.red.heroes[2].speed)
+  addCustomDefineItem(customDefineSettingData.red.heroes[3].speed)
+  addCustomDefineItem(customDefineSettingData.red.heroes[4].speed)
+  addCustomDefineItem(customDefineSettingData.blue.line.attack)
+  addCustomDefineItem(customDefineSettingData.red.line.attack)
+  addCustomDefineItem(customDefineSettingData.blue.line.health)
+  addCustomDefineItem(customDefineSettingData.red.line.health)
+  addCustomDefineItem(customDefineSettingData.blue.line.speed)
+  addCustomDefineItem(customDefineSettingData.red.line.speed)
+  addCustomDefineItem(customDefineSettingData.blue.line.refreshSpeed)
+  addCustomDefineItem(customDefineSettingData.red.line.refreshSpeed)
+  addCustomDefineItem(customDefineSettingData.blue.line.spawnType)
+  addCustomDefineItem(customDefineSettingData.red.line.spawnType)
+  addCustomDefineItem(customDefineSettingData.blue.tower.attack)
+  addCustomDefineItem(customDefineSettingData.red.tower.attack)
+  addCustomDefineItem(customDefineSettingData.blue.tower.attackRange)
+  addCustomDefineItem(customDefineSettingData.red.tower.attackRange)
+  addCustomDefineItem(customDefineSettingData.blue.tower.health)
+  addCustomDefineItem(customDefineSettingData.red.tower.health)
+  addCustomDefineItem(customDefineSettingData.blue.monster.attack)
+  addCustomDefineItem(customDefineSettingData.red.monster.attack)
+  addCustomDefineItem(customDefineSettingData.blue.monster.health)
+  addCustomDefineItem(customDefineSettingData.red.monster.health)
+  addCustomDefineItem(customDefineSettingData.blue.crystal.attack)
+  addCustomDefineItem(customDefineSettingData.red.crystal.attack)
+  addCustomDefineItem(customDefineSettingData.blue.crystal.health)
+  addCustomDefineItem(customDefineSettingData.red.crystal.health)
 
   // 生成随机ID
   const ullExternUid = Math.round(Math.random() * 1000000000000000000)
   const ullRoomid = ullExternUid
 
   return {
-    mapType,
+    createType: "2",
     mapID,
+    ullRoomid,
+    mapType,
+    ullExternUid,
+    roomName: "1",
     teamerNum,
-    customDefineItems,
-    banHerosCamp1: banHeroIDs,
-    banHerosCamp2: banHeroIDs,
+    platType: "2",
+    campid: "1",
     addPos: "0",
+    firstCountDownTime: "6666666666",
+    secondCountDownTime: "17",
     AddType: "2",
     OfflineRelayEntityID: "",
-    campid: "1", 
-    createType: "2",
-    firstCountDownTime: "6666666666",
     openAICommentator: "1",
-    platType: "2",
-    roomName: "1",
-    secondCountDownTime: "17",
-    ullExternUid,
-    ullRoomid
+    banHerosCamp1: banHeroIDs,
+    banHerosCamp2: banHeroIDs,
+    customDefineItems
   }
 }
 
