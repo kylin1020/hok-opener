@@ -834,8 +834,17 @@ const PRESET_MODES: Mode[] = [
 
 export async function GET() {
   const hotModes = await ModeService.getHotModes()
-  return NextResponse.json({
+  
+  // 创建响应对象
+  const response = NextResponse.json({
     presetModes: PRESET_MODES,
     hotModes: hotModes
   })
+  
+  // 设置禁用缓存的响应头
+  response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+  response.headers.set('Pragma', 'no-cache')
+  response.headers.set('Expires', '0')
+  
+  return response
 } 
