@@ -250,21 +250,21 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
       
       {/* 添加标题区域 */}
       <div className="w-full max-w-md text-center mb-6 mt-8">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 flex items-center gap-2">
-          <Image 
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-2">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+            <Image 
               src="/imgs/image.png"
               alt="小王开局助手图标"
               width={30}
               height={30}
-              className="rounded-full"
+              className="inline-block mr-2 rounded-full"
             />
             {
               roomData.mode ? `游戏房间 (${roomData.mode.name})` : '游戏房间'
             }
-          </h1>
-        </div>
-        {/* 添加房间ID显示 */}
+          </span>
+        </h1>
+        {/* 房间ID显示 */}
         <p className="text-sm text-gray-500 mt-2">
           房间ID: {roomId}
         </p>

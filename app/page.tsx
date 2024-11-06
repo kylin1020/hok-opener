@@ -216,19 +216,21 @@ export default function Home() {
       <Toaster richColors />
 
       <div className="w-full max-w-md text-center mb-6 mt-8 title-area">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 flex items-center gap-2">
-            小王
-            <Image 
-              src="/imgs/image.png"
-              alt="小王开局助手图标"
-              width={36}
-              height={36}
-              className="rounded-full"
-            />
-            开局助手 v1.0
-          </h1>
-        </div>
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-2">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+            小王开局助手
+          </span>
+          <Image 
+            src="/imgs/image.png"
+            alt="小王开局助手图标"
+            width={32}
+            height={32}
+            className="inline-block mx-2 rounded-full"
+          />
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+            v1.0
+          </span>
+        </h1>
         <p className="text-gray-600 mt-2">
           自定义你的王者荣耀游戏体验
         </p>
