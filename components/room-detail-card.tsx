@@ -230,6 +230,20 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
     )
   }
 
+  const handleCopyRoomLink = async () => {
+    const shareUrl = `${window.location.origin}/room/${roomId}`;
+    const success = await copyToClipboard(`[王者荣耀-小王助手] ${roomData.mode.name}\n${shareUrl}`);
+    
+    if (success) {
+      toast.success("房间链接已复制到剪贴板", {
+        description: "可以直接分享给好友了",
+        duration: 3000,
+      });
+    } else {
+      toast.error("复制失败，请重试");
+    }
+  }
+
   return (
     <div className="h-[calc(100vh-theme('spacing.16'))] flex flex-col items-center bg-gradient-to-br from-purple-100 via-pink-200 to-red-200 p-4">
       <Toaster richColors />
@@ -261,19 +275,7 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
         <Button 
           variant="ghost"
           size="sm"
-          onClick={async () => {
-            const shareUrl = `${window.location.origin}/room/${roomId}`;
-            const success = await copyToClipboard(shareUrl);
-            
-            if (success) {
-              toast.success("房间链接已复制到剪贴板", {
-                description: "可以直接分享给好友了",
-                duration: 3000,
-              });
-            } else {
-              toast.error("复制失败，请重试");
-            }
-          }}
+          onClick={handleCopyRoomLink}
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 p-2 h-auto"
         >
           <Share className="h-4 w-4" />

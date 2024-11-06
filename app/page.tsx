@@ -252,7 +252,7 @@ export default function Home() {
                 </Button>
               </div>
               <div className="flex justify-between items-center mt-2">
-                <Button 
+                {/* <Button 
                   variant="ghost"
                   size="sm"
                   onClick={() => {
@@ -266,7 +266,7 @@ export default function Home() {
                 >
                   <Share className="h-4 w-4" />
                   <span>分享模式</span>
-                </Button>
+                </Button> */}
                 <button 
                   onClick={() => {
                     router.push('/mode/create')
