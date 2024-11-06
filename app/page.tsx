@@ -72,7 +72,7 @@ export default function Home() {
   const steps: Step[] = [
     {
       target: '.title-area',
-      content: '欢迎使用小王开局���手! 这是一个帮助你快速创建王者荣耀自定义房间的工具',
+      content: '欢迎使用小王开局助手! 这是一个帮助你快速创建王者荣耀自定义房间的工具',
       placement: 'bottom',
     },
     {
