@@ -2,28 +2,11 @@ import clientPromise from '@/lib/mongodb'
 import { ObjectId } from 'mongodb'
 import { type Mode } from '@/types/mode'
 
-// 添加 MongoDB 文档接口
-interface ModeDocument {
-  _id: ObjectId
-  name: string
-  description: string
-  settings: any // 根据实际 settings 类型调整
-  usageCount: number
-  createdAt: Date
-}
-
 export class ModeService {
-  private static collection: any = null
-
   private static async getCollection() {
-    // 添加集合缓存，避免重复连接
-    if (this.collection) {
-      return this.collection
-    }
     const client = await clientPromise
     const db = client.db("hok-opener")
-    this.collection = db.collection('modes')
-    return this.collection
+    return db.collection('modes')
   }
 
   static async getMode(id: string) {
@@ -58,11 +41,11 @@ export class ModeService {
     if (limit <= 0 || limit > 10) {
       limit = 4
     }
+
     const collection = await this.getCollection()
-    console.log('Fetching hot modes with limit:', limit)
     const items = await collection.find({}).sort({ usageCount: -1 }).limit(limit).toArray()
     console.log('Found items:', items.length)
-    return items.map((item: ModeDocument) => ({
+    return items.map((item) => ({
       id: item._id.toString(),
       name: item.name,
       description: item.description,
@@ -70,17 +53,5 @@ export class ModeService {
       usageCount: item.usageCount,
       createdAt: item.createdAt
     }))
-  }
-
-  static async testConnection() {
-    try {
-      const collection = await this.getCollection()
-      const count = await collection.countDocuments()
-      console.log('Database connection successful. Document count:', count)
-      return true
-    } catch (error) {
-      console.error('Database connection error:', error)
-      return false
-    }
   }
 } 
