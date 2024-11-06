@@ -72,7 +72,7 @@ export default function Home() {
   const steps: Step[] = [
     {
       target: '.title-area',
-      content: '欢迎使用小王开局助手! 这是一个帮助你快速创建王者荣耀自定义房间的工具',
+      content: '欢迎使用小王开局���手! 这是一个帮助你快速创建王者荣耀自定义房间的工具',
       placement: 'bottom',
     },
     {
@@ -239,9 +239,9 @@ export default function Home() {
           <CardContent className="pt-6">
             <div className="flex flex-col">
               <div className="flex items-center justify-between">
-                <div>
+                <div className="max-w-[60%]">
                   <p className="text-sm text-gray-500">当前选择</p>
-                  <p className="text-lg font-semibold">{currentMode?.name}</p>
+                  <p className="text-lg font-semibold truncate">{currentMode?.name}</p>
                 </div>
                 <Button 
                   onClick={() => startGame(currentMode)}

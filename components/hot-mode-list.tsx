@@ -46,9 +46,9 @@ export function HotModeList({ modes, onModeClick, currentMode }: HotModeListProp
           >
             <CardContent className="p-4">
               <div className="flex justify-between items-center">
-                <div>
-                  <h3 className="font-semibold">{mode.name}</h3>
-                  <p className="text-sm text-gray-500 mt-1">
+                <div className="max-w-[80%] min-w-0">
+                  <h3 className="font-semibold truncate">{mode.name}</h3>
+                  <p className="text-sm text-gray-500 mt-1 line-clamp-2">
                     {mode.description}
                   </p>
                 </div>
