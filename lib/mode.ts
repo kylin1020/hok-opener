@@ -3,7 +3,7 @@ import { Hero } from "@/types/hero"
 
 
 // 根据模式设置生成游戏配置
-export function generateGameConfigFromMode(mode: Mode, heroes: Hero[]): GameConfig {
+export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: number): GameConfig {
     const { settings } = mode
     const { mapMode, banHeroNames, customDefineSettingData } = settings
 
@@ -115,8 +115,8 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[]): GameConf
   addCustomDefineItem(customDefineSettingData.red.crystal.health)
 
   // 生成随机ID
-  const ullExternUid = Math.round(Math.random() * 1000000000000000000)
-  const ullRoomid = ullExternUid
+  const ullExternUid = roomNo
+  const ullRoomid = roomNo
 
   return {
     createType: "2",
@@ -344,7 +344,7 @@ export function generateDefaultMode(): Mode {
                       },
                       health: {
                         value: '1',
-                        index: ['14']
+                        index: ['14',]
                       }
                     },
                     monster: {
