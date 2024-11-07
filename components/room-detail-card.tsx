@@ -22,6 +22,7 @@ import Image from "next/image"
 import { Hero } from "@/types/hero"
 import { useRouter } from "next/navigation"
 import { generateGameConfigFromMode } from '@/lib/mode'
+import QRCode from 'react-qr-code';
 
 const levelValueMap: Record<string, string> = {
   '1': '1级',
@@ -439,6 +440,11 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
                 </Dialog>
               </div>
             </div>
+            <div className="mt-4 flex justify-center">
+              <div className="p-4 border-2 rounded-xl shadow-md max-w-xs" style={{ borderImage: 'linear-gradient(to right, #6a11cb, #2575fc) 1' }}>
+                <QRCode value={`${window.location.origin}/room/${roomId}`} size={80} />
+              </div>
+            </div>  
           </div>
         </CardContent>
       </Card>
