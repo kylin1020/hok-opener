@@ -3,7 +3,7 @@ import { Hero } from "@/types/hero"
 
 
 // 根据模式设置生成游戏配置
-export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: number, isFirstJoin?: boolean, team?: "blue" | "red" = "blue"): GameConfig {
+export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: number, isFirstJoin?: boolean, team: "blue" | "red" = "blue"): GameConfig {
     const { settings } = mode
     const { mapMode, banHeroNames, customDefineSettingData } = settings
 
