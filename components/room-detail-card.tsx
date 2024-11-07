@@ -125,8 +125,7 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
 
     setLoading(true)
     try {
-      const gameConfig = generateGameConfigFromMode(roomData.mode, heroes, roomData.roomNo)
-      gameConfig.campid = team === "blue" ? "1" : "2"
+      const gameConfig = generateGameConfigFromMode(roomData.mode, heroes, roomData.roomNo, false, team)
       toast.success(`成功加入${team === "blue" ? "蓝队" : "红队"}, 等待跳转至游戏...`)
       // 将gameConfig进行base64后拼接: tencentmsdk1104466820://?gamedata=SmobaLaunch_
       const prefix = navigator.userAgent.includes("QQ/") ? "https://h5.nes.smoba.qq.com/pvpesport.web.user/#/launch-game-mp-qq" : "tencentmsdk1104466820://"

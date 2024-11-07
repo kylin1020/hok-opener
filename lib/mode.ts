@@ -3,7 +3,7 @@ import { Hero } from "@/types/hero"
 
 
 // 根据模式设置生成游戏配置
-export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: number): GameConfig {
+export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: number, isFirstJoin?: boolean, team?: "blue" | "red" = "blue"): GameConfig {
     const { settings } = mode
     const { mapMode, banHeroNames, customDefineSettingData } = settings
 
@@ -118,7 +118,7 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: n
   const ullExternUid = roomNo
   const ullRoomid = roomNo
 
-  return {
+  const info: GameConfig = {
     createType: "2",
     mapID,
     ullRoomid,
@@ -127,17 +127,24 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: n
     roomName: "1",
     teamerNum,
     platType: "2",
-    campid: "1",
-    AddPos: "0",
+    campid: team === "blue" ? "1" : "2",
     firstCountDownTime: "6666666666",
     secondCountDownTime: "17",
-    AddType: "2",
     OfflineRelayEntityID: "",
     openAICommentator: "1",
     banHerosCamp1: banHeroIDs,
     banHerosCamp2: banHeroIDs,
     customDefineItems
   }
+
+  if (isFirstJoin) {
+    info.AddPos = "0"
+    info.AddType = "2"
+  } else {
+    info.AddType = "0"
+  }
+
+  return info
 }
 
 export const MapModeType = {
