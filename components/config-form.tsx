@@ -335,7 +335,7 @@ function HeroConfigFormComponent(props: HeroConfigFormComponentProps) {
   const { levelInitialValue, magicAttackInitialValue, 
           physicalAttackInitialValue, coolDownInitialValue, 
           speedInitialValue, onLevelChange, onMagicAttackChange, 
-          onPhysicalAttackChange, onCoolDownChange, onSpeedChange } = props
+          onPhysicalAttackChange, onCoolDownChange, onSpeedChange, onGoldChange } = props
   return (
     <div className="space-y-2">
       <GenericSelectorComponent
@@ -402,9 +402,9 @@ function HeroConfigFormComponent(props: HeroConfigFormComponentProps) {
         ]}
         initialValue={magicAttackInitialValue}
         onChange={(value) => {
-          onMagicAttackChange(value)
+          onGoldChange(value)
         }}
-        label="法术攻击加成"
+        label="初始金币"
       />
       <GenericSelectorComponent
         options={[
