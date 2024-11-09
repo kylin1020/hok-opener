@@ -409,7 +409,7 @@ const PRESET_MODES: Mode[] = [
             "lineConfigType": "line-global",
             "towerConfigType": "tower-global"
         }
-    }
+    },
     {
         "id": "672f6b20602f291aaca59066",
         "name": "无CD模式(禁无敌)",
