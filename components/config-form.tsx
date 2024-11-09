@@ -385,6 +385,35 @@ function HeroConfigFormComponent(props: HeroConfigFormComponentProps) {
           },
           {
             value: '2',
+            label: '1000'
+          },
+          {
+            value: '3',
+            label: '2000'
+          },
+          {
+            value: '4',
+            label: '5000'
+          },
+          {
+            value: '5',
+            label: '12000'
+          }
+        ]}
+        initialValue={magicAttackInitialValue}
+        onChange={(value) => {
+          onMagicAttackChange(value)
+        }}
+        label="法术攻击加成"
+      />
+      <GenericSelectorComponent
+        options={[
+          {
+            value: '1',
+            label: '无加成'
+          },
+          {
+            value: '2',
             label: '10%加成'
           },
           {
