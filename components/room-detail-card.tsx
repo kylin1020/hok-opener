@@ -151,7 +151,7 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
         window.location.href = gameURI
       }
     } catch (error) {
-      toast.error("加入失败，请重试") 
+      toast.error("加入失败，请重试:" + error) 
     } finally {
       setLoading(false)
     }
