@@ -3,7 +3,7 @@ import { Hero } from "@/types/hero"
 
 
 // 根据模式设置生成游戏配置
-export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: number, isFirstJoin?: boolean, team: "blue" | "red" = "blue"): GameConfig {
+export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: number, isFirstJoin?: boolean, team: "blue" | "red" | undefined = "blue"): GameConfig {
     const { settings } = mode
     const { mapMode, banHeroNames, customDefineSettingData } = settings
 
@@ -127,8 +127,8 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: n
     roomName: "1",
     teamerNum,
     platType: "2",
-    campid: team === "blue" ? "1" : "2",
-    firstCountDownTime: "6666666666",
+    // campid: team === "blue" ? "1" : "2",
+    firstCountDownTime: "600",
     secondCountDownTime: "17",
     OfflineRelayEntityID: "",
     openAICommentator: "1",
@@ -142,6 +142,10 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: n
     info.AddType = "2"
   } else {
     info.AddType = "0"
+  }
+
+  if (team) {
+    info.campid = team === "blue" ? "1" : "2"
   }
 
   return info

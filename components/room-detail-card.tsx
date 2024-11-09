@@ -118,6 +118,23 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
     queryFn: () => fetchRoom(roomId)
   })
 
+  const generateGameURI = (team: "blue" | "red" | undefined, forceH5: boolean = false) => {
+    if (!roomData?.mode) {
+      toast.error("房间模式不存在")
+      return ""
+    }
+
+    const gameConfig = generateGameConfigFromMode(roomData.mode, heroes, roomData.roomNo, false, team)
+    let prefix;
+    if (forceH5) {
+      prefix = "https://h5.nes.smoba.qq.com/pvpesport.web.user/#/launch-game-mp-qq"
+    } else {
+      prefix = navigator.userAgent.includes("QQ/") ? "https://h5.nes.smoba.qq.com/pvpesport.web.user/#/launch-game-mp-qq" : "tencentmsdk1104466820://"
+    }
+    const gameURI = `${prefix}?gamedata=SmobaLaunch_${btoa(JSON.stringify(gameConfig))}`
+    return gameURI
+  }
+
   const joinTeam = async (team: "blue" | "red") => {
     if (!roomData?.mode) {
       toast.error("房间模式不存在")
@@ -126,19 +143,14 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
 
     setLoading(true)
     try {
-      const gameConfig = generateGameConfigFromMode(roomData.mode, heroes, roomData.roomNo, false, team)
       toast.success(`成功加入${team === "blue" ? "蓝队" : "红队"}, 等待跳转至游戏...`)
-      // 将gameConfig进行base64后拼接: tencentmsdk1104466820://?gamedata=SmobaLaunch_
-      const prefix = navigator.userAgent.includes("QQ/") ? "https://h5.nes.smoba.qq.com/pvpesport.web.user/#/launch-game-mp-qq" : "tencentmsdk1104466820://"
-      const gameURI = `${prefix}?gamedata=SmobaLaunch_${btoa(JSON.stringify(gameConfig))}`
+      const gameURI = generateGameURI(team)
       if (window.top) {
         window.top.location.href = gameURI
       } else {
         window.location.href = gameURI
       }
-      console.log(gameConfig);
     } catch (error) {
-      console.log(error);
       toast.error("加入失败，请重试") 
     } finally {
       setLoading(false)
@@ -232,7 +244,8 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
 
   const handleCopyRoomLink = async () => {
     const shareUrl = `${window.location.origin}/room/${roomId}`;
-    const success = await copyToClipboard(`[王者荣耀-小王助手] ${roomData.mode.name}\n${shareUrl}`);
+    // const shareUrl = generateGameURI(undefined, true)
+    const success = await copyToClipboard(`[王者荣耀-小王助手] ${roomData.mode.name}\n\n${shareUrl}`);
     
     if (success) {
       toast.success("房间链接已复制到剪贴板", {

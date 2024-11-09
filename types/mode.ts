@@ -107,7 +107,7 @@ export type GameConfig = {
     AddPos?: string
     AddType?: string
     OfflineRelayEntityID: string
-    campid: string
+    campid?: string
     createType: string
     firstCountDownTime: string
     openAICommentator: string

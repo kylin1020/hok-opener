@@ -322,11 +322,13 @@ type HeroConfigFormComponentProps = {
   physicalAttackInitialValue: string
   coolDownInitialValue: string
   speedInitialValue: string
+  goldInitialValue: string
   onLevelChange: (value: string) => void
   onMagicAttackChange: (value: string) => void
   onPhysicalAttackChange: (value: string) => void
   onCoolDownChange: (value: string) => void
   onSpeedChange: (value: string) => void
+  onGoldChange: (value: string) => void
 }
 
 function HeroConfigFormComponent(props: HeroConfigFormComponentProps) {
@@ -911,23 +913,6 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
   const [name, setName] = useState(mode.name)
   const [description, setDescription] = useState(mode.description)
 
-  // useEffect(() => {
-  //   if (initialConfig) {
-  //     return;
-  //   }
-
-  //   const configData = loadConfigFromLocalStorage()
-  //   if (configData) {
-  //     setName(configData.name)
-  //     setCustomDefineSettingData(configData.customDefineSettingData)
-  //     setMapMode(configData.mapMode)
-  //     setBanHeroNames(configData.banHeroNames)
-  //     setHeroConfigType(configData.heroConfigType)
-  //     setLineConfigType(configData.lineConfigType)
-  //     setTowerConfigType(configData.towerConfigType)
-  //   }
-  // }, []);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onModeChange?.({
@@ -1051,6 +1036,7 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
                         physicalAttackInitialValue={customDefineSettingData.blue.heroes[0].physicalAttack.value}
                         coolDownInitialValue={customDefineSettingData.blue.heroes[0].coolDown.value}
                         speedInitialValue={customDefineSettingData.blue.heroes[0].speed.value}
+                        goldInitialValue={customDefineSettingData.blue.heroes[0].gold.value}
                         onLevelChange={(value) => {
                           setCustomDefineSettingData({
                             ...customDefineSettingData,
@@ -1146,6 +1132,18 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
                             }
                           })
                         }}
+                        onGoldChange={(value) => {
+                          setCustomDefineSettingData({
+                            ...customDefineSettingData,
+                            blue: {
+                              ...customDefineSettingData.blue,
+                              heroes: customDefineSettingData.blue.heroes.map(hero => ({
+                                ...hero,
+                                gold: { ...hero.gold, value }
+                              }))
+                            }
+                          })
+                        }}
                       />
                     </TabsContent>
                     <TabsContent value="camp" className="space-y-4">
@@ -1157,6 +1155,7 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
                           physicalAttackInitialValue={customDefineSettingData.blue.heroes[0].physicalAttack.value}
                           coolDownInitialValue={customDefineSettingData.blue.heroes[0].coolDown.value}
                           speedInitialValue={customDefineSettingData.blue.heroes[0].speed.value}
+                          goldInitialValue={customDefineSettingData.blue.heroes[0].gold.value}
                           onLevelChange={(value) => {
                             setCustomDefineSettingData({
                               ...customDefineSettingData,
@@ -1213,6 +1212,18 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
                                 heroes: customDefineSettingData.blue.heroes.map(hero => ({
                                   ...hero,
                                   speed: { ...hero.speed, value }
+                                }))
+                              }
+                            })
+                          }}
+                          onGoldChange={(value) => {
+                            setCustomDefineSettingData({
+                              ...customDefineSettingData,
+                              blue: {
+                                ...customDefineSettingData.blue,
+                                heroes: customDefineSettingData.blue.heroes.map(hero => ({
+                                  ...hero,
+                                  gold: { ...hero.gold, value }
                                 }))
                               }
                             })
@@ -1227,6 +1238,7 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
                           physicalAttackInitialValue={customDefineSettingData.red.heroes[0].physicalAttack.value}
                           coolDownInitialValue={customDefineSettingData.red.heroes[0].coolDown.value}
                           speedInitialValue={customDefineSettingData.red.heroes[0].speed.value}
+                          goldInitialValue={customDefineSettingData.red.heroes[0].gold.value}
                           onLevelChange={(value) => {
                             setCustomDefineSettingData({
                               ...customDefineSettingData,
@@ -1283,6 +1295,18 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
                                 heroes: customDefineSettingData.red.heroes.map(hero => ({
                                   ...hero,
                                   speed: { ...hero.speed, value }
+                                }))
+                              }
+                            })
+                          }}
+                          onGoldChange={(value) => {
+                            setCustomDefineSettingData({
+                              ...customDefineSettingData,
+                              red: {
+                                ...customDefineSettingData.red,
+                                heroes: customDefineSettingData.red.heroes.map(hero => ({
+                                  ...hero,
+                                  gold: { ...hero.gold, value }
                                 }))
                               }
                             })
@@ -1317,6 +1341,7 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
                                   physicalAttackInitialValue={customDefineSettingData.blue.heroes[index].physicalAttack.value}
                                   coolDownInitialValue={customDefineSettingData.blue.heroes[index].coolDown.value}
                                   speedInitialValue={customDefineSettingData.blue.heroes[index].speed.value}
+                                  goldInitialValue={customDefineSettingData.blue.heroes[index].gold.value}
                                   onLevelChange={(value) => {
                                     customDefineSettingData.blue.heroes[index].level.value = value
                                     setCustomDefineSettingData({
@@ -1347,6 +1372,12 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
                                       ...customDefineSettingData
                                     })
                                   }}
+                                  onGoldChange={(value) => {
+                                    customDefineSettingData.blue.heroes[index].gold.value = value
+                                    setCustomDefineSettingData({
+                                      ...customDefineSettingData
+                                    })
+                                  }}
                                 />
                               </div>
                               <div className="space-y-2 p-2">
@@ -1357,6 +1388,7 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
                                   physicalAttackInitialValue={customDefineSettingData.red.heroes[index].physicalAttack.value}
                                   coolDownInitialValue={customDefineSettingData.red.heroes[index].coolDown.value}
                                   speedInitialValue={customDefineSettingData.red.heroes[index].speed.value}
+                                  goldInitialValue={customDefineSettingData.red.heroes[index].gold.value}
                                   onLevelChange={(value) => {
                                     customDefineSettingData.red.heroes[index].level.value = value
                                     setCustomDefineSettingData({
@@ -1383,6 +1415,12 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
                                   }}
                                   onSpeedChange={(value) => {
                                     customDefineSettingData.red.heroes[index].speed.value = value
+                                    setCustomDefineSettingData({
+                                      ...customDefineSettingData
+                                    })
+                                  }}
+                                  onGoldChange={(value) => {
+                                    customDefineSettingData.red.heroes[index].gold.value = value
                                     setCustomDefineSettingData({
                                       ...customDefineSettingData
                                     })
