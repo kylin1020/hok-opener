@@ -5,9 +5,9 @@ import { ModeService } from "@/lib/services/mode.service";
 // 模拟数据库中的数据
 const PRESET_MODES: Mode[] = [
     {
-        "id": "672abb4457e3850601e2e537",
+        "id": "672f6b20602f291aaca59066",
         "name": "无CD模式",
-        "description": "技能无CD, 可玩所有英雄",
+        "description": "技能无CD",
         "settings": {
             "mapMode": "[1,20912,10]",
             "banHeroNames": [],
@@ -32,7 +32,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "3"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "4"
                             },
                             "speed": {
@@ -58,7 +58,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "54"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "55"
                             },
                             "speed": {
@@ -84,7 +84,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "59"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "60"
                             },
                             "speed": {
@@ -110,7 +110,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "64"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "65"
                             },
                             "speed": {
@@ -136,7 +136,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "69"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "70"
                             },
                             "speed": {
@@ -409,9 +409,9 @@ const PRESET_MODES: Mode[] = [
             "lineConfigType": "line-global",
             "towerConfigType": "tower-global"
         }
-    },
+    }
     {
-        "id": "672abc4957e3850601e2e538",
+        "id": "672f6b20602f291aaca59066",
         "name": "无CD模式(禁无敌)",
         "description": "技能无CD, 禁无敌",
         "settings": {
@@ -452,7 +452,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "3"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "4"
                             },
                             "speed": {
@@ -478,7 +478,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "54"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "55"
                             },
                             "speed": {
@@ -504,7 +504,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "59"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "60"
                             },
                             "speed": {
@@ -530,7 +530,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "64"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "65"
                             },
                             "speed": {
@@ -556,7 +556,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "69"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "70"
                             },
                             "speed": {
