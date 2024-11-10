@@ -1170,6 +1170,13 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
                                 ...hero,
                                 gold: { ...hero.gold, value }
                               }))
+                            },
+                            red: {
+                              ...customDefineSettingData.red,
+                              heroes: customDefineSettingData.red.heroes.map(hero => ({
+                                ...hero,
+                                gold: { ...hero.gold, value }
+                              }))
                             }
                           })
                         }}
