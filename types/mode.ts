@@ -98,22 +98,22 @@ export type Mode = {
 
 // 游戏配置
 export type GameConfig = {
-    mapType: number
-    mapID: number
-    teamerNum: number
-    customDefineItems: string[]
-    banHerosCamp1: string[]
-    banHerosCamp2: string[]
+    mapType?: number
+    mapID?: number
+    teamerNum?: number
+    customDefineItems?: string[]
+    banHerosCamp1?: string[]
+    banHerosCamp2?: string[]
     AddPos?: string
     AddType?: string
-    OfflineRelayEntityID: string
+    OfflineRelayEntityID?: string
     campid?: string
-    createType: string
-    firstCountDownTime: string
-    openAICommentator: string
-    platType: string
-    roomName: string
-    secondCountDownTime: string
-    ullExternUid: number
-    ullRoomid: number
+    createType?: string
+    firstCountDownTime?: string
+    openAICommentator?: string
+    platType?: string
+    roomName?: string
+    secondCountDownTime?: string
+    ullExternUid?: number
+    ullRoomid?: number
 }

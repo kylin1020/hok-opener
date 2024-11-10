@@ -3,7 +3,7 @@ import { Hero } from "@/types/hero"
 
 
 // 根据模式设置生成游戏配置
-export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: number, isFirstJoin?: boolean, team: "blue" | "red" | undefined = "blue"): GameConfig {
+export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: number, isFirstJoin?: boolean, team: "blue" | "red" | undefined = "blue", onlyJoinRoom: boolean = false): GameConfig {
     const { settings } = mode
     const { mapMode, banHeroNames, customDefineSettingData } = settings
 
@@ -117,6 +117,14 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: n
   // 生成随机ID
   const ullExternUid = roomNo
   const ullRoomid = roomNo
+
+  if (onlyJoinRoom) {
+    return {
+      AddType: "0",
+      ullRoomid,
+      ullExternUid,
+    }
+  }
 
   const info: GameConfig = {
     createType: "2",

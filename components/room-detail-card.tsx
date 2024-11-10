@@ -118,13 +118,13 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
     queryFn: () => fetchRoom(roomId)
   })
 
-  const generateGameURI = (team: "blue" | "red" | undefined, forceH5: boolean = false) => {
+  const generateGameURI = (team: "blue" | "red" | undefined, forceH5: boolean = false, onlyJoinRoom: boolean = false) => {
     if (!roomData?.mode) {
       toast.error("房间模式不存在")
       return ""
     }
 
-    const gameConfig = generateGameConfigFromMode(roomData.mode, heroes, roomData.roomNo, false, team)
+    const gameConfig = generateGameConfigFromMode(roomData.mode, heroes, roomData.roomNo, false, team, onlyJoinRoom)
     let prefix;
     if (forceH5) {
       prefix = "https://h5.nes.smoba.qq.com/pvpesport.web.user/#/launch-game-mp-qq"
@@ -144,11 +144,14 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
     setLoading(true)
     try {
       toast.success(`成功加入${team === "blue" ? "蓝队" : "红队"}, 等待跳转至游戏...`)
-      const gameURI = generateGameURI(team)
+      const detailGameURI = generateGameURI(team, false, false)
+      console.log("detailGameURI", detailGameURI)
+      const gameURI = generateGameURI(team, false, true)
+      console.log("gameURI", gameURI)
       if (window.top) {
-        window.top.location.href = gameURI
+        window.top.location.href = detailGameURI
       } else {
-        window.location.href = gameURI
+        window.location.href = detailGameURI
       }
     } catch (error) {
       toast.error("加入失败，请重试:" + error) 
