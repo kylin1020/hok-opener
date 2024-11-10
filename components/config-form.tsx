@@ -334,7 +334,7 @@ type HeroConfigFormComponentProps = {
 function HeroConfigFormComponent(props: HeroConfigFormComponentProps) {
   const { levelInitialValue, magicAttackInitialValue, 
           physicalAttackInitialValue, coolDownInitialValue, 
-          speedInitialValue, onLevelChange, onMagicAttackChange, 
+          speedInitialValue, goldInitialValue, onLevelChange, onMagicAttackChange, 
           onPhysicalAttackChange, onCoolDownChange, onSpeedChange, onGoldChange } = props
   return (
     <div className="space-y-2">
@@ -400,7 +400,7 @@ function HeroConfigFormComponent(props: HeroConfigFormComponentProps) {
             label: '12000'
           }
         ]}
-        initialValue={magicAttackInitialValue}
+        initialValue={goldInitialValue}
         onChange={(value) => {
           onGoldChange(value)
         }}
