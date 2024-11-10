@@ -128,7 +128,7 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: n
     teamerNum,
     platType: "2",
     // campid: team === "blue" ? "1" : "2",
-    firstCountDownTime: "600",
+    firstCountDownTime: `${60 * 20}`,
     secondCountDownTime: "17",
     OfflineRelayEntityID: "",
     openAICommentator: "1",
