@@ -648,7 +648,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "31"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "32"
                             },
                             "speed": {
@@ -674,7 +674,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "74"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "75"
                             },
                             "speed": {
@@ -700,7 +700,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "79"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "80"
                             },
                             "speed": {
@@ -726,7 +726,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "84"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "85"
                             },
                             "speed": {
@@ -752,7 +752,7 @@ const PRESET_MODES: Mode[] = [
                                 "index": "89"
                             },
                             "gold": {
-                                "value": "1",
+                                "value": "5",
                                 "index": "90"
                             },
                             "speed": {
