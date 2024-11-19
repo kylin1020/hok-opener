@@ -39,6 +39,15 @@ export default function Footer() {
           <p className="text-sm text-gray-400">
             Made with ❤️ by kylin1020
           </p>
+          
+          <a
+            href="https://beian.miit.gov.cn/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            桂ICP备2024047320号
+          </a>
         </div>
       </footer>
 

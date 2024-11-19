@@ -17,7 +17,7 @@ export class RoomService {
       mode,
       createdAt: new Date(),
       status: 'active',
-      roomNo: Math.round(Math.random() * 1000000000000000000)
+      roomNo: Math.round(Math.random() * 1000000000000000)
     }
     
     const result = await collection.insertOne(room)

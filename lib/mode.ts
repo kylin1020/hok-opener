@@ -7,13 +7,28 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: n
     const { settings } = mode
     const { mapMode, banHeroNames, customDefineSettingData } = settings
 
+    const [mapType, mapID, teamerNum] = JSON.parse(mapMode)
+
+    const ullExternUid = roomNo
+    const ullRoomid = roomNo
+  
+    if (onlyJoinRoom) {
+      return {
+        createType: "2",
+        mapID,
+        mapType,
+        ullExternUid,
+        roomName: "1",
+        platType: "2",
+        campid: "1",
+      }
+    }
+
     // 将英雄名称转换为ID
     const banHeroIDs: string[] = banHeroNames.map(name => {
-        const hero = heroes.find((hero: Hero) => hero.cname === name)
-        return hero?.ename.toString() ?? ''
+      const hero = heroes.find((hero: Hero) => hero.cname === name)
+      return hero?.ename.toString() ?? ''
     }).filter(id => id !== '')
-
-    const [mapType, mapID, teamerNum] = JSON.parse(mapMode)
 
     // 生成自定义配置项
   const customDefineItems: string[] = []
@@ -114,18 +129,6 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: n
   addCustomDefineItem(customDefineSettingData.blue.crystal.health)
   addCustomDefineItem(customDefineSettingData.red.crystal.health)
 
-  // 生成随机ID
-  const ullExternUid = roomNo
-  const ullRoomid = roomNo
-
-  if (onlyJoinRoom) {
-    return {
-      AddType: "0",
-      ullRoomid,
-      ullExternUid,
-    }
-  }
-
   const info: GameConfig = {
     createType: "2",
     mapID,
@@ -135,11 +138,11 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: n
     roomName: "1",
     teamerNum,
     platType: "2",
-    // campid: team === "blue" ? "1" : "2",
-    firstCountDownTime: `${60 * 20}`,
+    campid: team === "blue" ? "1" : "2",
+    firstCountDownTime: `${60 * 60}`,
     secondCountDownTime: "17",
     OfflineRelayEntityID: "",
-    openAICommentator: "1",
+    openAICommentator: "0",
     banHerosCamp1: banHeroIDs,
     banHerosCamp2: banHeroIDs,
     customDefineItems
@@ -151,11 +154,6 @@ export function generateGameConfigFromMode(mode: Mode, heroes: Hero[], roomNo: n
   } else {
     info.AddType = "0"
   }
-
-  if (team) {
-    info.campid = team === "blue" ? "1" : "2"
-  }
-
   return info
 }
 
@@ -165,6 +163,8 @@ export const MapModeType = {
   TwoBan: "[1,20912,10]",
   ThreeBan: "[1,20913,10]",
   FourBan: "[1,20914,10]",
+  // 觉醒之战
+  Awakening: "[1,5121,10]",
 }
 
 export const MapModeOptions = [
@@ -183,7 +183,11 @@ export const MapModeOptions = [
     {
       value: MapModeType.FourBan,
       label: '5v5征召4ban位'
-    }
+    },
+    // {
+    //   value: MapModeType.Awakening,
+    //   label: '觉醒之战'
+    // }
   ];
 
 

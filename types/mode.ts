@@ -114,6 +114,6 @@ export type GameConfig = {
     platType?: string
     roomName?: string
     secondCountDownTime?: string
-    ullExternUid?: number
-    ullRoomid?: number
+    ullExternUid?: number | string
+    ullRoomid?: number | string
 }

@@ -146,7 +146,7 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
       toast.success(`成功加入${team === "blue" ? "蓝队" : "红队"}, 等待跳转至游戏...`)
       const detailGameURI = generateGameURI(team, false, false)
       console.log("detailGameURI", detailGameURI)
-      const gameURI = generateGameURI(team, false, true)
+      const gameURI = generateGameURI(team, true, true)
       console.log("gameURI", gameURI)
       if (window.top) {
         window.top.location.href = detailGameURI
@@ -248,7 +248,7 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
   const handleCopyRoomLink = async () => {
     const shareUrl = `${window.location.origin}/room/${roomId}`;
     // const shareUrl = generateGameURI(undefined, true)
-    const success = await copyToClipboard(`[王者荣耀-小王助手] ${roomData.mode.name}\n\n${shareUrl}`);
+    const success = await copyToClipboard(`[小王助手] ${roomData.mode.name}\n\n${shareUrl}`);
     
     if (success) {
       toast.success("房间链接已复制到剪贴板", {
