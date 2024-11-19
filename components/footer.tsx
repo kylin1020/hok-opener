@@ -40,14 +40,24 @@ export default function Footer() {
             Made with ❤️ by kylin1020
           </p>
           
-          <a
-            href="https://beian.miit.gov.cn/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            桂ICP备2024047320号
-          </a>
+          {process.env.NEXT_PUBLIC_ICP_NUMBER && (
+            <a
+              href="https://beian.miit.gov.cn/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <svg
+                className="w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M12 2L4 7v10l8 5 8-5V7l-8-5zM12 4.3l6 3.7-6 3.7-6-3.7 6-3.7zm-6 11.7v-6l6 3.7v6l-6-3.7zm8 3.7v-6l6-3.7v6l-6 3.7z" />
+              </svg>
+              <span>{process.env.NEXT_PUBLIC_ICP_NUMBER}</span>
+            </a>
+          )}
         </div>
       </footer>
 

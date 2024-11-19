@@ -30,6 +30,13 @@ const SHARE_PLATFORMS = [
     action: (url: string) => {
       window.open(`https://www.douyin.com/share/link?url=${encodeURIComponent(url)}`)
     }
+  },
+  {
+    name: "快手",
+    icon: "/icons/kuishou.svg",
+    action: (url: string) => {
+      window.open(`https://www.kuaishou.com/share/link?url=${encodeURIComponent(url)}`)
+    }
   }
 ]
 
