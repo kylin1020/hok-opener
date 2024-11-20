@@ -248,7 +248,7 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
   const handleCopyRoomLink = async () => {
     const shareUrl = `${window.location.origin}/room/${roomId}`;
     // const shareUrl = generateGameURI(undefined, true)
-    const success = await copyToClipboard(`[小王助手] ${roomData.mode.name}\n\n${shareUrl}`);
+    const success = await copyToClipboard(`[小王助手-不存在卡房] ${roomData.mode.name}\n\n${shareUrl}`);
     
     if (success) {
       toast.success("房间链接已复制到剪贴板", {
