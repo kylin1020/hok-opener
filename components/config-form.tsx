@@ -1675,18 +1675,21 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
                               attackRangeInitialValue={customDefineSettingData.blue.tower.attackRange.value}
                               onAttackChange={(value) => {
                                 customDefineSettingData.blue.tower.attack.value = value
+                                customDefineSettingData.red.tower.attack.value = value
                                 setCustomDefineSettingData({
                                   ...customDefineSettingData
                                 })
                               }}
                               onAttackRangeChange={(value) => {
                                 customDefineSettingData.blue.tower.attackRange.value = value
+                                customDefineSettingData.red.tower.attackRange.value = value
                                 setCustomDefineSettingData({
                                   ...customDefineSettingData
                                 })
                               }}
                               onHealthChange={(value) => {
                                 customDefineSettingData.blue.tower.health.value = value
+                                customDefineSettingData.red.tower.health.value = value
                                 setCustomDefineSettingData({
                                   ...customDefineSettingData
                                 })
@@ -1700,12 +1703,14 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
                               healthInitialValue={customDefineSettingData.blue.crystal.health.value}
                               onAttackChange={(value) => {
                                 customDefineSettingData.blue.crystal.attack.value = value
+                                customDefineSettingData.red.crystal.attack.value = value
                                 setCustomDefineSettingData({
                                   ...customDefineSettingData
                                 })
                               }}
                               onHealthChange={(value) => {
                                 customDefineSettingData.blue.crystal.health.value = value
+                                customDefineSettingData.red.crystal.health.value = value
                                 setCustomDefineSettingData({
                                   ...customDefineSettingData
                                 })
