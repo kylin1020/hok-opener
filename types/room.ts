@@ -6,4 +6,5 @@ export type Room = {
   roomNo: number
   createdAt: Date
   status: 'active' | 'ended'
+  qrCodeUrl?: string  // Optional QR code image URL
 }
