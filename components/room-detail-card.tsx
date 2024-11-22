@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import dynamic from "next/dynamic"
 import { useQuery } from "@tanstack/react-query"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -297,9 +296,6 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
       const blob = await new Promise<Blob>((resolve) => 
         canvas.toBlob((blob) => resolve(blob as Blob), 'image/png')
       );
-      
-      // 准备要复制的文本
-      const shareText = `[小王助手-不存在卡房] ${roomData.mode.name}\n房间链接：${window.location.origin}/room/${roomId}`;
       
       // 创建包含文本和图片的剪贴板数据
       await navigator.clipboard.write([
