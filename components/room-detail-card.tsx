@@ -459,10 +459,12 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
             <div className="mt-4 flex justify-center">
               <div className="p-4 border-2 rounded-xl shadow-md max-w-xs" style={{ borderImage: 'linear-gradient(to right, #6a11cb, #2575fc) 1' }}>
                 {roomData.qrCodeUrl ? (
-                  <img 
+                  <Image 
                     src={roomData.qrCodeUrl} 
                     alt="房间二维码"
-                    className="w-[80px] h-[80px]"
+                    // className="w-[80px] h-[80px]"
+                    width={80}
+                    height={80}
                   />
                 ) : (
                   <QRCode value={`${window.location.origin}/room/${roomId}`} size={80} />
