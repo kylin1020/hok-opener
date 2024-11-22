@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import dynamic from "next/dynamic"
 import { useQuery } from "@tanstack/react-query"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -260,6 +261,73 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
     }
   }
 
+  const handleCopyQRCode = async () => {
+    try {
+      // 获取QRCode的SVG元素
+      const svg = document.querySelector('.qr-code svg') as SVGElement;
+      if (!svg) {
+        throw new Error('QR Code element not found');
+      }
+
+      // 创建Canvas
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const img = new (window.Image as { new(): HTMLImageElement })();
+      
+      // 转换SVG为Base64
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+      
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+        img.src = url;
+      });
+      
+      // 设置canvas大小
+      canvas.width = img.width;
+      canvas.height = img.height;
+      
+      // 绘制图片
+      ctx?.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      
+      // 转换为Blob
+      const blob = await new Promise<Blob>((resolve) => 
+        canvas.toBlob((blob) => resolve(blob as Blob), 'image/png')
+      );
+      
+      // 准备要复制的文本
+      const shareText = `[小王助手-不存在卡房] ${roomData.mode.name}\n房间链接：${window.location.origin}/room/${roomId}`;
+      
+      // 创建包含文本和图片的剪贴板数据
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'image/png': blob
+        })
+      ]);
+      
+      toast.success("已复制到剪贴板", {
+        description: "可以直接粘贴到微信、QQ等聊天工具中！！",
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error('Failed to copy QR code:', error);
+      // 如果复制图片失败，尝试只复制文本
+      try {
+        const shareText = `[小王助手-不存在卡房] ${roomData.mode.name}\n房间链接：${window.location.origin}/room/${roomId}`;
+        await navigator.clipboard.writeText(shareText);
+        toast.success("房间信息已复制到剪贴板", {
+          description: "图片复制失败，仅复制了文本信息",
+          duration: 3000,
+        });
+      } catch {
+        toast.error("复制失败，请重试");
+      }
+    }
+  };
+
   return (
     <div className="h-[calc(100vh-theme('spacing.16'))] flex flex-col items-center bg-gradient-to-br from-purple-100 via-pink-200 to-red-200 p-4">
       <Toaster richColors />
@@ -456,20 +524,24 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
                 </Dialog>
               </div>
             </div>
-            <div className="mt-4 flex justify-center">
-              <div className="p-4 border-2 rounded-xl shadow-md max-w-xs" style={{ borderImage: 'linear-gradient(to right, #6a11cb, #2575fc) 1' }}>
-                {roomData.qrCodeUrl ? (
-                  <Image 
-                    src={roomData.qrCodeUrl} 
-                    alt="房间二维码"
-                    // className="w-[80px] h-[80px]"
-                    width={80}
-                    height={80}
+            <div className="mt-4 flex flex-col items-center gap-2">
+              <div 
+                className="p-4 border-2 rounded-xl shadow-md cursor-pointer hover:shadow-lg transition-shadow" 
+                style={{ borderImage: 'linear-gradient(to right, #6a11cb, #2575fc) 1' }}
+                onClick={handleCopyQRCode}
+                title="点击复制二维码图片"
+              >
+                <div className="qr-code">
+                  <QRCode 
+                    value={`${window.location.origin}/room/${roomId}`} 
+                    size={60}
+                    level="H"
+                    fgColor="#000000"
+                    bgColor="#FFFFFF"
                   />
-                ) : (
-                  <QRCode value={`${window.location.origin}/room/${roomId}`} size={80} />
-                )}
+                </div>
               </div>
+              <p className="text-sm text-gray-500">点击复制二维码图片</p>
             </div>  
           </div>
         </CardContent>
