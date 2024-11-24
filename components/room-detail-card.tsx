@@ -332,13 +332,6 @@ export default function RoomDetailCard({ roomId, heroes }: RoomDetailCardProps) 
       <div className="w-full max-w-md text-center mb-6 mt-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-center mb-2">
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
-            <Image 
-              src="/imgs/image.png"
-              alt="小王开局助手图标"
-              width={30}
-              height={30}
-              className="inline-block mr-2 rounded-full"
-            />
             {
               roomData.mode ? `游戏房间 (${roomData.mode.name})` : '游戏房间'
             }

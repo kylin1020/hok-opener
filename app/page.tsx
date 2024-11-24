@@ -220,13 +220,6 @@ export default function Home() {
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
             小王开局助手
           </span>
-          <Image 
-            src="/imgs/image.png"
-            alt="小王开局助手图标"
-            width={32}
-            height={32}
-            className="inline-block mx-2 rounded-full"
-          />
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
             v1.0
           </span>
