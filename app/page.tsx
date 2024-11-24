@@ -14,7 +14,6 @@ import { ShareModeDialog } from "@/components/share-mode-dialog"
 import { HomeSkeleton } from "@/components/home-skeleton"
 import { ErrorDisplay } from "@/components/error-display"
 import Joyride, { Step } from 'react-joyride'
-import Image from "next/image"
 import { LoadingDialog } from "@/components/loading-dialog"
 import { Mode } from "@/types/mode"
 

@@ -18,7 +18,6 @@ import {
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { copyToClipboard } from "@/lib/utils/clipboard"
 import { LoadingDialog } from "@/components/loading-dialog"
-import Image from "next/image"
 import { Hero } from "@/types/hero"
 import { useRouter } from "next/navigation"
 import { generateGameConfigFromMode } from '@/lib/mode'
