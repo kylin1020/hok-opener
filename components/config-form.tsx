@@ -963,7 +963,7 @@ export default function ConfigFormComponent({ heroes, onModeChange, currentMode 
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-pink-200 to-red-200 p-4">
       <Card className="w-full max-w-2xl">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-center">王者荣耀自定义玩法</CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">自定义玩法</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-2">

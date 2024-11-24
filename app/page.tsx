@@ -232,7 +232,7 @@ export default function Home() {
           </span>
         </h1>
         <p className="text-gray-600 mt-2">
-          自定义你的王者荣耀游戏体验
+          自定义游戏体验
         </p>
       </div>
 
